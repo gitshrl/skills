@@ -8,7 +8,7 @@ Copy (or symlink) any folder into `~/.claude/skills/` and restart Claude Code.
 
 ## Plugins
 
-`plugins/` snapshots my installed plugins. Reproduce them:
+Plugins I run alongside these skills — install via Claude Code:
 
 ```
 /plugin marketplace add anthropics/claude-plugins-official
