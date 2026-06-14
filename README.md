@@ -1,10 +1,14 @@
 # skills
 
-Curated [Claude Code](https://docs.claude.com/en/docs/claude-code) agent skills, plus a manifest of the plugins I run.
+Curated [Claude Code](https://docs.claude.com/en/docs/claude-code) agent skills, plus the engineering guidelines and plugins I run.
 
 ## Skills
 
 Copy (or symlink) any folder into `~/.claude/skills/` and restart Claude Code.
+
+## Guidelines
+
+[`CLAUDE.md`](./CLAUDE.md) — the engineering standards I drop into `~/.claude/CLAUDE.md`.
 
 ## Plugins
 
