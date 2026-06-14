@@ -1,4 +1,4 @@
-# my-agent-skills
+# skills
 
 Curated [Claude Code](https://docs.claude.com/en/docs/claude-code) agent skills, plus a manifest of the plugins I run.
 
