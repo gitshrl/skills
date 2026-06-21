@@ -62,8 +62,8 @@ else
     curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | sh
 fi
 if command -v rtk >/dev/null 2>&1; then
-    log "wiring rtk Claude Code hook (rtk init -g)"
-    rtk init -g || warn "rtk init -g failed — run it manually"
+    log "wiring rtk Claude Code hook (rtk init -g --auto-patch)"
+    rtk init -g --auto-patch || warn "rtk init failed — run: rtk init -g --auto-patch"
 else
     warn "rtk not on PATH after install — add ~/.local/bin to PATH, then: rtk init -g"
 fi
@@ -80,7 +80,12 @@ if command -v claude >/dev/null 2>&1; then
         "superpowers@claude-plugins-official" \
         "andrej-karpathy-skills@karpathy-skills" \
         "ponytail@ponytail"; do
-        claude plugin install "$p" -s user 2>/dev/null && log "  + $p" || warn "  plugin $p — install manually: claude plugin install $p -s user"
+        if out=$(claude plugin install "$p" -s user 2>&1); then
+            log "  + $p"
+        else
+            warn "  plugin $p failed — error below; retry: claude plugin install $p -s user"
+            printf '%s\n' "$out" | tail -4
+        fi
     done
 else
     warn "claude CLI not found — install Claude Code first, then re-run for plugins"
