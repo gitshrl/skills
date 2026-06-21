@@ -72,12 +72,18 @@ fi
 if command -v claude >/dev/null 2>&1; then
     log "adding marketplaces + installing plugins"
     # marketplace name -> github repo
-    claude plugin marketplace add anthropics/claude-plugins-official 2>/dev/null || true
-    claude plugin marketplace add forrestchang/andrej-karpathy-skills 2>/dev/null || true
-    claude plugin marketplace add DietrichGebert/ponytail 2>/dev/null || true
-    # `add` skips cloning if the marketplace is already declared in settings, which
-    # leaves a cache-miss on a fresh machine. force-populate the cache before install.
-    claude plugin marketplace update 2>/dev/null || true
+    # add registers the marketplace AND clones it — but if it's already declared in
+    # settings with an empty cache (cache-miss on a fresh machine), add is a no-op and
+    # update can't pull a clone that doesn't exist. remove-then-add forces a fresh clone.
+    # name -> github repo
+    for m in \
+        "claude-plugins-official anthropics/claude-plugins-official" \
+        "karpathy-skills forrestchang/andrej-karpathy-skills" \
+        "ponytail DietrichGebert/ponytail"; do
+        set -- $m
+        claude plugin marketplace remove "$1" 2>/dev/null || true
+        claude plugin marketplace add "$2" 2>/dev/null || true
+    done
     for p in \
         "rust-analyzer-lsp@claude-plugins-official" \
         "superpowers@claude-plugins-official" \
