@@ -33,8 +33,15 @@ count=0
 for d in "$SRC"/*/; do
     [ -f "${d}SKILL.md" ] || continue
     name="$(basename "$d")"
-    rm -rf "${SKILLS_DIR:?}/$name"
-    cp -r "$d" "$SKILLS_DIR/$name"
+    dest="$SKILLS_DIR/$name"
+    # Guard: if the repo was cloned directly into ~/.claude/skills, the source
+    # IS the destination — skip the rm/cp (it would delete then copy nothing).
+    if [ "${d%/}" -ef "$dest" ] 2>/dev/null; then
+        count=$((count + 1))
+        continue
+    fi
+    rm -rf "${dest:?}"
+    cp -r "$d" "$dest"
     count=$((count + 1))
 done
 log "  $count skills installed"
