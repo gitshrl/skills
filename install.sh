@@ -75,6 +75,9 @@ if command -v claude >/dev/null 2>&1; then
     claude plugin marketplace add anthropics/claude-plugins-official 2>/dev/null || true
     claude plugin marketplace add forrestchang/andrej-karpathy-skills 2>/dev/null || true
     claude plugin marketplace add DietrichGebert/ponytail 2>/dev/null || true
+    # `add` skips cloning if the marketplace is already declared in settings, which
+    # leaves a cache-miss on a fresh machine. force-populate the cache before install.
+    claude plugin marketplace update 2>/dev/null || true
     for p in \
         "rust-analyzer-lsp@claude-plugins-official" \
         "superpowers@claude-plugins-official" \
