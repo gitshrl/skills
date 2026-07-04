@@ -43,4 +43,4 @@ Present designs sequentially so the user can absorb each one, then compare them 
 
 After comparing, give your own recommendation: which design you think is strongest and why. If elements from different designs would combine well, propose a hybrid. Be opinionated — the user wants a strong read, not a menu.
 
-If the choice stays contested after your recommendation, offer to run the `prototype` skill — frame the question as "does this interface feel right to call?" so it routes as a logic question — wiring the top candidates over one shared throwaway implementation so the user drives each interface instead of judging static usage examples. The winning interface's portable module seeds the real implementation.
+If the choice stays contested after your recommendation, offer to run the `prototype` skill, framing the question as "does this interface feel right to call?" so it routes as a logic question: wire the top candidates over one shared throwaway implementation so the user drives each interface instead of judging static usage examples. The winning interface's portable module seeds the real implementation.

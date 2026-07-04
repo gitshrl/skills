@@ -66,7 +66,7 @@ Do NOT propose interfaces yet. Ask the user: "Which of these would you like to e
 
 ### 3. Interview loop
 
-Once the user picks a candidate, run the `core-interview` skill against it — constraints, dependencies, the shape of the deepened module, what sits behind the seam, what tests survive.
+Once the user picks a candidate, run the `core-interview` skill against it. The decision tree to walk: constraints, dependencies, the shape of the deepened module, what sits behind the seam, what tests survive.
 
 Side effects happen inline as decisions crystallize:
 

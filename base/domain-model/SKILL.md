@@ -64,7 +64,7 @@ When the user states how something works, check whether the code agrees. If you 
 
 When a term is resolved, update `CONTEXT.md` right there. Don't batch these up — capture them as they happen. Use the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
 
-`CONTEXT.md` is a glossary and nothing else — not a spec, not a scratchpad, not a home for implementation decisions. Keep it free of implementation details; only include terms meaningful to domain experts.
+`CONTEXT.md` is a glossary and nothing else: not a spec, not a scratchpad, not a home for implementation decisions. Keep it free of implementation details; only include terms meaningful to domain experts.
 
 ### Offer ADRs sparingly
 
