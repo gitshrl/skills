@@ -46,6 +46,27 @@ for d in "$SRC"/*/ "$SRC"/*/*/; do
 done
 log "  $count skills installed"
 
+# --- 1b) Prune: the repo is the source of truth. Any skill dir living in
+# ~/.claude/skills without a counterpart in the repo is stale (renamed or
+# removed) and gets deleted, with a warning per removal. Only dirs that
+# contain a SKILL.md are considered; loose files and non-skill dirs are left alone.
+repo_skills=" "
+for d in "$SRC"/*/ "$SRC"/*/*/; do
+    [ -f "${d}SKILL.md" ] || continue
+    repo_skills="$repo_skills$(basename "$d") "
+done
+for d in "$SKILLS_DIR"/*/; do
+    [ -f "${d}SKILL.md" ] || continue
+    name="$(basename "$d")"
+    case "$repo_skills" in
+        *" $name "*) ;;
+        *)
+            warn "removing stale skill: $name (not in repo)"
+            rm -rf "${d:?}"
+            ;;
+    esac
+done
+
 # --- 2) CLAUDE.md (+ RTK.md if present) -> ~/.claude/ (backup existing) ---
 for f in CLAUDE.md RTK.md; do
     [ -f "$SRC/$f" ] || continue
