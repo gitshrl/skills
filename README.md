@@ -12,7 +12,7 @@ curl -fsSL https://raw.githubusercontent.com/gitshrl/skills/main/install.sh | ba
 
 Or from a clone: `git clone https://github.com/gitshrl/skills && ./skills/install.sh`
 
-Idempotent: re-run any time to update (existing `CLAUDE.md`/`RTK.md` are backed up). Restart Claude Code afterwards. Needs `git`, `curl`, and the `claude` CLI; rtk requires nothing extra (prebuilt binary).
+Idempotent: re-run any time to update (existing `CLAUDE.md`/`RTK.md` are backed up). Restart Claude Code afterward. Needs `git`, `curl`, and the `claude` CLI; rtk requires nothing extra (prebuilt binary).
 
 ## Base suite
 
@@ -21,8 +21,8 @@ The skills in `base/` are connected and project-agnostic.
 | Skill | Purpose | How to invoke | Invocation |
 |---|---|---|---|
 | **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. | `/drill`, or say "drill this plan" | model |
-| **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallise. | `/domain-model` | user only |
-| **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer is the deliverable; the code gets deleted. | `/prototype`, or say "prototype this" | model |
+| **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallize. | `/domain-model` | user only |
+| **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer is the deliverable; the code gets deleted or its validated decision absorbed into the real code. | `/prototype`, or say "prototype this" | model |
 | **implement** | Work a settled plan test-first, one thin slice at a time: failing test, minimum code, refactor green. Routes bugs to `debug` and ends by running `verify`. | `/implement`, or say "build it" | model |
 | **debug** | Root-cause a bug before fixing it: reproduce, trace to first cause, verify one hypothesis with evidence, fix, add the regression test. | `/debug`, or just report a bug | model |
 | **verify** | Prove a claim of done, fixed, or passing by running the commands and reading the output before making it. | `/verify`, fires before completion claims | model |
@@ -77,15 +77,15 @@ Skills in `utils/` support any session without being a workflow step:
 Two artifacts live in your project and connect the skills across sessions:
 
 - **`CONTEXT.md`**: the domain glossary, and nothing else. Terms meaningful to domain experts, free of implementation details. `domain-model` writes it as terms get resolved; `architecture` reads it so refactoring candidates speak your domain language. Repos with multiple bounded contexts use a root `CONTEXT-MAP.md` pointing to per-context `CONTEXT.md` files. Format: [`base/domain-model/CONTEXT-FORMAT.md`](./base/domain-model/CONTEXT-FORMAT.md).
-- **`docs/adr/`**: architectural decision records. Written sparingly, only when a decision is hard to reverse, surprising without context, and the result of a real trade-off. `domain-model` and `architecture` offer them at the right moments; `architecture` treats existing ADRs as decisions not to re-litigate; `prototype` captures its verdict as an ADR when it passes the same test. Format: [`base/domain-model/ADR-FORMAT.md`](./base/domain-model/ADR-FORMAT.md).
+- **`docs/adr/`**: architectural decision records. Written sparingly, only when a decision is hard to reverse, surprising without context, the result of a real trade-off. `domain-model` and `architecture` offer them at the right moments; `architecture` treats existing ADRs as decisions not to re-litigate; `prototype` captures its verdict as an ADR when it passes the same test. Format: [`base/domain-model/ADR-FORMAT.md`](./base/domain-model/ADR-FORMAT.md).
 
-Both are created lazily, with no setup step. The first resolved term creates `CONTEXT.md`; the first decision worth recording creates `docs/adr/`. Skills that read them proceed silently when they're absent.
+Both are created lazily, with no setup step. The first resolved term creates `CONTEXT.md`; the first ADR creates `docs/adr/`. Skills that read them proceed silently when they're absent.
 
 ## From a fresh project
 
 1. **`/drill`** the initial plan: walk the decision tree before any code exists.
 2. **`/domain-model`** once the plan has domain words in it: pin the vocabulary; `CONTEXT.md` is born from the first resolved term.
-3. **`/prototype`** whichever design question survived both interviews still contested: a state model that "feels wrong" or a UI you can't picture. Keep the answer, delete the code.
+3. **`/prototype`** whichever design question survived both interviews still contested: a state model that "feels wrong" or a UI you can't picture. Keep the answer; delete the code or absorb the validated decision.
 4. **`/implement`** the plan test-first, one thin slice at a time. A bug mid-slice routes to `/debug`; `/verify` proves the claim before anything is called done.
 5. **`/handoff`** when the session runs long. The next session starts where this one stopped.
 

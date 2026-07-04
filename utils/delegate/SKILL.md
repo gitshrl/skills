@@ -9,7 +9,7 @@ Pre-flight: scan the whole plan once for tasks that contradict each other or its
 
 Per task:
 
-1. Dispatch a fresh implementer subagent with the task text and exactly the context it needs, nothing inherited from the session. It implements under the `implement` skill's discipline (test-first, thin slices), commits, and self-reviews.
+1. Dispatch a fresh implementer subagent with the task text and exactly the context it needs, nothing inherited from the session. It implements under the `implement` skill's discipline (test-first, thin slices), commits, and self-reviews. Invoking `delegate` is the ask for that commit.
 2. Dispatch a reviewer subagent against the task's diff: spec compliance and code quality. Critical or important findings go to a fix subagent, then re-review.
 3. Mark the task complete and move on. No check-ins between tasks; stop only for a blocker, genuine ambiguity, or completion.
 
