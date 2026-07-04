@@ -113,6 +113,7 @@ Both are created lazily, with no setup step. The first resolved term creates `CO
 | Independent failures or tasks, two or more | `parallel` |
 | Multi-task plan to execute hands-off | `delegate` |
 | Authoring or editing a skill | `write-skill` |
+| Learning a topic across sessions | `teach` |
 | Session runs long | `handoff` |
 
 ## Guidelines
