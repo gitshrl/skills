@@ -18,21 +18,23 @@ Idempotent: re-run any time to update (existing `CLAUDE.md`/`RTK.md` are backed 
 
 The skills in `base/` are connected and project-agnostic.
 
-| Skill | Purpose | How to invoke |
-|---|---|---|
-| **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. | `/drill`, or say "drill this plan" |
-| **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallise. | `/domain-model` (user-invoked only) |
-| **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer is the deliverable; the code gets deleted. | `/prototype`, or say "prototype this" |
-| **architecture** | Scan the codebase for deepening opportunities: shallow modules to consolidate, seams to strengthen. Presents candidates, interviews you through the one you pick, and can fan out sub-agents to design rival interfaces for it. | `/architecture` |
-| **core-interview** | Internal support: the interview loop `drill`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none |
+| Skill | Purpose | How to invoke | Invocation |
+|---|---|---|---|
+| **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. | `/drill`, or say "drill this plan" | model |
+| **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallise. | `/domain-model` | user only |
+| **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer is the deliverable; the code gets deleted. | `/prototype`, or say "prototype this" | model |
+| **architecture** | Scan the codebase for deepening opportunities: shallow modules to consolidate, seams to strengthen. Presents candidates, interviews you through the one you pick, and can fan out sub-agents to design rival interfaces for it. | `/architecture` | model |
+| **core-interview** | Internal support: the interview loop `drill`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none | model, only via other skills |
 
 ## Utilities
 
 Skills in `utils/` support any session without being a workflow step:
 
-| Skill | Purpose | How to invoke |
-|---|---|---|
-| **handoff** | Compact the session into a document the next session picks up. Pass an argument describing what the next session is for. | `/handoff "review the auth refactor"` |
+| Skill | Purpose | How to invoke | Invocation |
+|---|---|---|---|
+| **handoff** | Compact the session into a document the next session picks up. Pass an argument describing what the next session is for. | `/handoff "review the auth refactor"` | model |
+| **research** | Spin up a background agent that investigates a question against primary sources (official docs, source code, specs) and writes the findings to a cited markdown file in the repo. | `/research`, or say "research X" | model |
+| **teach** | A learning workspace: lessons, a mission, a glossary, and learning records that track what you actually understand across sessions. | `/teach` | user only |
 
 ## The documents the suite maintains
 
@@ -60,7 +62,7 @@ Both are created lazily, with no setup step. The first resolved term creates `CO
 
 ## Guidelines
 
-[`CLAUDE.md`](./CLAUDE.md) is the agent's main instruction set, installed to `~/.claude/CLAUDE.md` so it governs every session: voice, engineering bar, surgical changes, git rules, and how skills are used. Skills define workflows; `CLAUDE.md` defines behavior. When they overlap, `CLAUDE.md` wins.
+[`CLAUDE.md`](./CLAUDE.md) is the agent's main instruction set, installed to `~/.claude/CLAUDE.md`.
 
 ## Plugins
 
