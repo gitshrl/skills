@@ -69,10 +69,20 @@ Both are created lazily, with no setup step. The first resolved term creates `CO
 Plugins I run alongside these skills. Install via Claude Code:
 
 ```
+# marketplaces first
 /plugin marketplace add anthropics/claude-plugins-official
 /plugin marketplace add DietrichGebert/ponytail
 
+# process skills: brainstorming, systematic debugging, TDD, verification.
+# Fire automatically when the task matches; no invocation needed.
 /plugin install superpowers@claude-plugins-official
-/plugin install rust-analyzer-lsp@claude-plugins-official
+
+# enforces the laziest solution that works: YAGNI, stdlib first, shortest diff.
+# Always on. Switch level with /ponytail lite|full|ultra,
+# review a diff with /ponytail-review, audit a repo with /ponytail-audit.
 /plugin install ponytail@ponytail
+
+# rust-analyzer language server: diagnostics, go-to-definition, type info.
+# Stack-specific: activates only in Rust projects.
+/plugin install rust-analyzer-lsp@claude-plugins-official
 ```

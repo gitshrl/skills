@@ -84,9 +84,9 @@ if command -v claude >/dev/null 2>&1; then
         claude plugin marketplace add "$2" 2>/dev/null || true
     done
     for p in \
-        "rust-analyzer-lsp@claude-plugins-official" \
         "superpowers@claude-plugins-official" \
-        "ponytail@ponytail"; do
+        "ponytail@ponytail" \
+        "rust-analyzer-lsp@claude-plugins-official"; do
         if out=$(claude plugin install "$p" -s user 2>&1); then
             log "  + $p"
         else
