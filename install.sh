@@ -27,10 +27,10 @@ fi
 
 mkdir -p "$SKILLS_DIR"
 
-# --- 1) Skills -> ~/.claude/skills/ (every dir with a SKILL.md) ---
+# --- 1) Skills -> ~/.claude/skills/ (every dir with a SKILL.md, one tier deep: base/, stacks/) ---
 log "installing skills -> $SKILLS_DIR"
 count=0
-for d in "$SRC"/*/; do
+for d in "$SRC"/*/ "$SRC"/*/*/; do
     [ -f "${d}SKILL.md" ] || continue
     name="$(basename "$d")"
     dest="$SKILLS_DIR/$name"
@@ -78,7 +78,6 @@ if command -v claude >/dev/null 2>&1; then
     # name -> github repo
     for m in \
         "claude-plugins-official anthropics/claude-plugins-official" \
-        "karpathy-skills forrestchang/andrej-karpathy-skills" \
         "ponytail DietrichGebert/ponytail"; do
         set -- $m
         claude plugin marketplace remove "$1" 2>/dev/null || true
@@ -87,7 +86,6 @@ if command -v claude >/dev/null 2>&1; then
     for p in \
         "rust-analyzer-lsp@claude-plugins-official" \
         "superpowers@claude-plugins-official" \
-        "andrej-karpathy-skills@karpathy-skills" \
         "ponytail@ponytail"; do
         if out=$(claude plugin install "$p" -s user 2>&1); then
             log "  + $p"
