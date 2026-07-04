@@ -27,7 +27,7 @@ fi
 
 mkdir -p "$SKILLS_DIR"
 
-# --- 1) Skills -> ~/.claude/skills/ (every dir with a SKILL.md, one tier deep: base/, stacks/) ---
+# --- 1) Skills -> ~/.claude/skills/ (every dir with a SKILL.md, one tier deep) ---
 log "installing skills -> $SKILLS_DIR"
 count=0
 for d in "$SRC"/*/ "$SRC"/*/*/; do

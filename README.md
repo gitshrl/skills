@@ -51,13 +51,9 @@ Both are created lazily, with no setup step. The first resolved term creates `CO
 3. **`/domain-model`** when a plan touches domain concepts the glossary doesn't cover. The codebase is cross-referenced against what you say, and contradictions surface immediately.
 4. **`/handoff`** to bridge sessions, same as greenfield.
 
-## Stack skills
-
-`stacks/` holds standalone skills scoped to a stack (python, rust, ai, backend). Each is independent, installed the same way, invoked only where its stack applies.
-
 ## Guidelines
 
-[`CLAUDE.md`](./CLAUDE.md): the engineering standards I drop into `~/.claude/CLAUDE.md`.
+[`CLAUDE.md`](./CLAUDE.md) is the agent's main instruction set, installed to `~/.claude/CLAUDE.md` so it governs every session: voice, engineering bar, surgical changes, git rules, and how skills are used. Skills define workflows; `CLAUDE.md` defines behavior. When they overlap, `CLAUDE.md` wins.
 
 ## Plugins
 
