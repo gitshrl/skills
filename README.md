@@ -30,15 +30,15 @@ How they connect:
 
 ```mermaid
 flowchart TD
-    fresh([fresh project]) --> drill
-    existing([existing codebase]) --> architecture
+    fresh([fresh project]) --> drill["drill (model)"]
+    existing([existing codebase]) --> architecture["architecture (model)"]
 
-    drill --> dm[domain-model]
-    dm --> proto[prototype]
+    drill --> dm["domain-model (user only)"]
+    dm --> proto["prototype (model)"]
     proto --> build([build])
     architecture -- contested interface --> proto
 
-    drill -. delegates .-> ci[core-interview]
+    drill -. delegates .-> ci["core-interview (model, via other skills)"]
     dm -. delegates .-> ci
     architecture -. delegates .-> ci
 
@@ -46,7 +46,7 @@ flowchart TD
     architecture -- reads and writes --> docs
     proto -- verdict as ADR --> docs
 
-    build -. session runs long .-> handoff["handoff (utils)"]
+    build -. session runs long .-> handoff["handoff (utils, model)"]
 ```
 
 ## Utilities
