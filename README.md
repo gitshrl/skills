@@ -20,12 +20,19 @@ The skills in `base/` are connected and project-agnostic.
 
 | Skill | Purpose | How to invoke |
 |---|---|---|
-| **challenge** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. | `/challenge`, or say "challenge this plan" |
+| **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. | `/drill`, or say "drill this plan" |
 | **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallise. | `/domain-model` (user-invoked only) |
 | **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer is the deliverable; the code gets deleted. | `/prototype`, or say "prototype this" |
 | **architecture** | Scan the codebase for deepening opportunities: shallow modules to consolidate, seams to strengthen. Presents candidates, interviews you through the one you pick, and can fan out sub-agents to design rival interfaces for it. | `/architecture` |
+| **core-interview** | Internal support: the interview loop `drill`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none |
+
+## Utilities
+
+Skills in `utils/` support any session without being a workflow step:
+
+| Skill | Purpose | How to invoke |
+|---|---|---|
 | **handoff** | Compact the session into a document the next session picks up. Pass an argument describing what the next session is for. | `/handoff "review the auth refactor"` |
-| **core-interview** | Internal support: the interview loop `challenge`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none |
 
 ## The documents the suite maintains
 
@@ -38,7 +45,7 @@ Both are created lazily, with no setup step. The first resolved term creates `CO
 
 ## From a fresh project
 
-1. **`/challenge`** the initial plan: walk the decision tree before any code exists.
+1. **`/drill`** the initial plan: walk the decision tree before any code exists.
 2. **`/domain-model`** once the plan has domain words in it: pin the vocabulary; `CONTEXT.md` is born from the first resolved term.
 3. **`/prototype`** whichever design question survived both interviews still contested: a state model that "feels wrong" or a UI you can't picture. Keep the answer, delete the code.
 4. Build.
@@ -47,7 +54,7 @@ Both are created lazily, with no setup step. The first resolved term creates `CO
 ## In an existing codebase
 
 1. **`/architecture`**: it explores the code (and `CONTEXT.md`/ADRs if present), then presents deepening candidates. Pick one; the interview walks constraints, dependencies, the shape of the deepened module, and what tests survive. Contested interface choices route to `/prototype`; resolved terms and rejected candidates land in `CONTEXT.md` and ADRs.
-2. **`/challenge`** any change plan before implementing it, same discipline as greenfield.
+2. **`/drill`** any change plan before implementing it, same discipline as greenfield.
 3. **`/domain-model`** when a plan touches domain concepts the glossary doesn't cover. The codebase is cross-referenced against what you say, and contradictions surface immediately.
 4. **`/handoff`** to bridge sessions, same as greenfield.
 
