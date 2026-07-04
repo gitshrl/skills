@@ -30,15 +30,15 @@ How they connect:
 
 ```mermaid
 flowchart TD
-    fresh([fresh project]) --> drill["drill (model)"]
-    existing([existing codebase]) --> architecture["architecture (model)"]
+    fresh([fresh project]) --> drill
+    existing([existing codebase]) --> architecture
 
-    drill --> dm["domain-model (user only)"]
-    dm --> proto["prototype (model)"]
+    drill --> dm[domain-model]
+    dm --> proto[prototype]
     proto --> build([build])
     architecture -- contested interface --> proto
 
-    drill -. delegates .-> ci["core-interview (model, via other skills)"]
+    drill -. delegates .-> ci[core-interview]
     dm -. delegates .-> ci
     architecture -. delegates .-> ci
 
@@ -46,8 +46,18 @@ flowchart TD
     architecture -- reads and writes --> docs
     proto -- verdict as ADR --> docs
 
-    build -. session runs long .-> handoff["handoff (utils, model)"]
+    build -. session runs long .-> handoff[handoff]
+
+    classDef model fill:#1f6feb,stroke:#1f6feb,color:#ffffff
+    classDef useronly fill:#8250df,stroke:#8250df,color:#ffffff
+    classDef internal fill:#6e7781,stroke:#24292f,color:#ffffff,stroke-dasharray: 4 3
+
+    class drill,proto,architecture,handoff model
+    class dm useronly
+    class ci internal
 ```
+
+Blue: model-invoked. Purple: user-invoked only. Dashed gray: internal, reached only through other skills.
 
 ## Utilities
 
