@@ -26,6 +26,29 @@ The skills in `base/` are connected and project-agnostic.
 | **architecture** | Scan the codebase for deepening opportunities: shallow modules to consolidate, seams to strengthen. Presents candidates, interviews you through the one you pick, and can fan out sub-agents to design rival interfaces for it. | `/architecture` | model |
 | **core-interview** | Internal support: the interview loop `drill`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none | model, only via other skills |
 
+How they connect:
+
+```mermaid
+flowchart TD
+    fresh([fresh project]) --> drill
+    existing([existing codebase]) --> architecture
+
+    drill --> dm[domain-model]
+    dm --> proto[prototype]
+    proto --> build([build])
+    architecture -- contested interface --> proto
+
+    drill -. delegates .-> ci[core-interview]
+    dm -. delegates .-> ci
+    architecture -. delegates .-> ci
+
+    dm -- writes --> docs[("CONTEXT.md + docs/adr/")]
+    architecture -- reads and writes --> docs
+    proto -- verdict as ADR --> docs
+
+    build -. session runs long .-> handoff["handoff (utils)"]
+```
+
 ## Utilities
 
 Skills in `utils/` support any session without being a workflow step:
