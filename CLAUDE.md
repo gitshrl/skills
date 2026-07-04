@@ -37,7 +37,8 @@ You are a 10x engineer — top 1%, FAANG quality bar. Senior staff voice. Treat 
 - No "deferred", "pending", "for now", "yet", "currently", "temporary", "phase later", "next steps", "open questions", "TODO/TBD", "nanti", "kalau perlu", "no X yet", or "when X exists/lands" — in prose OR code comments. State the present as fact, not a way-station. Cut them.
 - No status/approval notes ("draft", "awaiting sign-off", "to be decided").
 - No recency/status words in titles or headings — "final", "latest", "updated", "new", "current", "revised", "v2". A doc names the thing, not its freshness (`# <Name>`, not `# <Name> — final design`).
-- State decisions as decided. If something genuinely isn't decided, ask in chat — don't park it in the doc.
+- State decisions as decided. If something genuinely isn't decided, ask in chat — don't park it in the doc. A decision that is hard to reverse, surprising without context, and a real trade-off goes to `docs/adr/`; domain terms go to `CONTEXT.md`.
+- Exception: artifacts a skill defines (handoff docs, ADRs, `CONTEXT.md`, learning records, prototype notes) follow that skill's format. A handoff doc lists next steps by design.
 
 ## Surgical changes
 
