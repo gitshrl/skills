@@ -1,0 +1,19 @@
+---
+name: implement
+description: Implement a settled plan test-first, smallest slice at a time. Use when starting implementation of a feature or fix after the plan is settled, or when user says "implement this" or "build it".
+---
+
+Work the plan one thin slice at a time. A slice is the smallest piece that changes observable behavior.
+
+1. Pick the smallest unfinished slice of the plan.
+2. Write the test that fails for it. Test external behavior through the interface, never implementation details. If no failing test can be written, the seam is wrong: stop and fix the plan, not the test.
+3. Write the minimum code that makes it pass.
+4. Refactor only with tests green. Match the existing style of the surrounding code.
+5. Repeat until the plan has no unfinished slices.
+
+Rules:
+
+- No production code before its failing test exists.
+- Keep every diff surgical: each changed line traces to the current slice.
+- A bug or unexpected failure mid-slice routes to the `debug` skill; do not patch around symptoms.
+- When the last slice lands, run the `verify` skill before claiming the work is done.

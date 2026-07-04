@@ -98,15 +98,12 @@ if command -v claude >/dev/null 2>&1; then
     # update can't pull a clone that doesn't exist. remove-then-add forces a fresh clone.
     # name -> github repo
     for m in \
-        "claude-plugins-official anthropics/claude-plugins-official" \
-        "ponytail DietrichGebert/ponytail"; do
+        "claude-plugins-official anthropics/claude-plugins-official"; do
         set -- $m
         claude plugin marketplace remove "$1" 2>/dev/null || true
         claude plugin marketplace add "$2" 2>/dev/null || true
     done
     for p in \
-        "superpowers@claude-plugins-official" \
-        "ponytail@ponytail" \
         "rust-analyzer-lsp@claude-plugins-official"; do
         if out=$(claude plugin install "$p" -s user 2>&1); then
             log "  + $p"
