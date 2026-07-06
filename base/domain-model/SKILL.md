@@ -42,6 +42,10 @@ If a `CONTEXT-MAP.md` exists at the root, the repo has multiple contexts. The ma
 
 Create files lazily: only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
 
+### First contact
+
+When no `CONTEXT.md` exists and the codebase is nontrivial, offer a one-time seeding pass: distill candidate terms from the code and any existing docs, then confirm each through the interview. Only confirmed terms enter the glossary; a term nobody vouched for is not written.
+
 ## During the session
 
 ### Challenge against the glossary

@@ -31,6 +31,8 @@ The skills in `base/` are connected and project-agnostic.
 
 How they connect:
 
+The base runs as a loop: a spec steers, `implement` makes, `verify` checks, `land` closes. The maker never certifies its own work.
+
 ```mermaid
 flowchart TD
     fresh([fresh project]) --> drill
@@ -41,10 +43,15 @@ flowchart TD
     proto --> impl[implement]
     architecture -- contested interface --> proto
 
+    drill -- goal, non-goals, acceptance criteria --> spec[("docs/specs/*.md")]
+    spec -- criteria become failing tests --> impl
+
     impl -- bug appears --> debug
     debug --> impl
     impl --> verify
-    verify --> done([done])
+    verify -- criterion fails --> impl
+    verify -- every criterion proven --> land[land]
+    land -- fresh-eyes gate, residue to docs, spec deleted --> done([done])
 
     drill -. delegates .-> ci[core-interview]
     dm -. delegates .-> ci
@@ -67,7 +74,7 @@ Skills at the repo root support any session without being a workflow step:
 | **research** | Spin up a background agent that investigates a question against primary sources (official docs, source code, specs) and writes the findings to a cited markdown file in the repo. | `/research`, or say "research X" | model |
 | **teach** | A learning workspace: lessons, a mission, a glossary, and learning records that track what you actually understand across sessions. | `/teach` | user only |
 | **worktree** | Isolated workspace before feature work: detect existing isolation, prefer the harness's native tool, fall back to git worktree under `.worktrees/`, verify a clean test baseline. | `/worktree` | model |
-| **land** | Finish a branch: verify first, then merge, PR, keep, or discard, with worktree cleanup in the right order. | `/land` | model |
+| **land** | Finish a branch: fresh-eyes spec gate first, then merge, PR, keep, or discard, with spec cleanup and worktree removal in the right order. | `/land` | model |
 | **parallel** | One subagent per independent problem, all dispatched concurrently, integrated with a full-suite check. | `/parallel` | model |
 | **delegate** | Execute a settled plan with a fresh subagent per task, a review after each, and a whole-branch review at the end. | `/delegate` | model |
 | **write-skill** | Create or edit a skill test-first: record the failure without it, write the minimum that fixes it, close loopholes. | `/write-skill` | model |
@@ -75,26 +82,29 @@ Skills at the repo root support any session without being a workflow step:
 
 ## The documents the suite maintains
 
-Two artifacts live in your project and connect the skills across sessions:
+Three artifacts live in your project. Two are durable; one lives only as long as its branch:
 
 - **`CONTEXT.md`**: the domain glossary, and nothing else. Terms meaningful to domain experts, free of implementation details. `domain-model` writes it as terms get resolved; `architecture` reads it so refactoring candidates speak your domain language. Repos with multiple bounded contexts use a root `CONTEXT-MAP.md` pointing to per-context `CONTEXT.md` files. Format: [`base/domain-model/CONTEXT-FORMAT.md`](./base/domain-model/CONTEXT-FORMAT.md).
 - **`docs/adr/`**: architectural decision records. Written sparingly, only when a decision is hard to reverse, surprising without context, the result of a real trade-off. `domain-model` and `architecture` offer them at the right moments; `architecture` treats existing ADRs as decisions not to re-litigate; `prototype` captures its verdict as an ADR when it passes the same test. Format: [`base/domain-model/ADR-FORMAT.md`](./base/domain-model/ADR-FORMAT.md).
 
-Both are created lazily, with no setup step. The first resolved term creates `CONTEXT.md`; the first ADR creates `docs/adr/`. Skills that read them proceed silently when they're absent.
+- **`docs/specs/<slug>.md`**: one spec per work item, the loop's steering artifact. Goal, non-goals, checkable acceptance criteria, verification commands. `drill` writes it when the plan settles, `implement` turns criteria into failing tests, `verify` gates criterion by criterion, `land` routes durable residue to ADRs/`CONTEXT.md` and deletes it. Branch-lifetime by design; a spec that outlives its branch is stale documentation. Format: [`base/drill/SPEC-FORMAT.md`](./base/drill/SPEC-FORMAT.md).
+
+All are created lazily, with no setup step, on any codebase. The first resolved term creates `CONTEXT.md`; the first ADR creates `docs/adr/`; the first settled plan creates its spec. Skills that read them proceed silently when they're absent.
 
 ## From a fresh project
 
-1. **`/drill`** the initial plan: walk the decision tree before any code exists.
+1. **`/drill`** the initial plan: walk the decision tree before any code exists. When the plan settles, drill writes the spec (goal, non-goals, acceptance criteria) to `docs/specs/`.
 2. **`/domain-model`** once the plan has domain words in it: pin the vocabulary; `CONTEXT.md` is born from the first resolved term.
 3. **`/prototype`** whichever design question survived both interviews still contested: a state model that "feels wrong" or a UI you can't picture. Keep the answer; delete the code or absorb the validated decision.
-4. **`/implement`** the plan test-first, one thin slice at a time. A bug mid-slice routes to `/debug`; `/verify` proves the claim before anything is called done.
-5. **`/handoff`** when the session runs long. The next session starts where this one stopped.
+4. **`/implement`** criterion by criterion from the spec, test-first. A bug mid-slice routes to `/debug`; `/verify` gates each criterion against fresh command output.
+5. **`/land`** closes the loop: a fresh-eyes gate checks the diff against the spec, durable residue moves to ADRs/`CONTEXT.md`, the spec is deleted with the branch.
+6. **`/handoff`** when the session runs long. The next session starts where this one stopped.
 
 ## In an existing codebase
 
 1. **`/architecture`**: it explores the code (and `CONTEXT.md`/ADRs if present), then presents deepening candidates. Pick one; the interview walks constraints, dependencies, the shape of the deepened module, and what tests survive. Contested interface choices route to `/prototype`; resolved terms and rejected candidates land in `CONTEXT.md` and ADRs.
-2. **`/drill`** any change plan before implementing it, same discipline as greenfield.
-3. **`/domain-model`** when a plan touches domain concepts the glossary doesn't cover. The codebase is cross-referenced against what you say, and contradictions surface immediately.
+2. **`/drill`** any change plan before implementing it, same discipline as greenfield: the settled plan becomes a spec in `docs/specs/`, and the loop (implement, verify, land) runs against it.
+3. **`/domain-model`** when a plan touches domain concepts the glossary doesn't cover. The codebase is cross-referenced against what you say, and contradictions surface immediately. On first contact with a codebase that has no `CONTEXT.md`, it offers a one-time seeding pass: candidate terms distilled from the code, each confirmed through the interview before it's written.
 4. **`/handoff`** to bridge sessions, same as greenfield.
 
 ## When to use what

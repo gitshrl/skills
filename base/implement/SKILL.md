@@ -5,6 +5,8 @@ description: Implement a settled plan test-first, smallest slice at a time. Use 
 
 Work the plan one thin slice at a time. A slice is the smallest piece that changes observable behavior.
 
+When a spec exists at `docs/specs/<slug>.md`, its acceptance criteria are the plan: work criterion by criterion, and let the spec's non-goals fence every diff.
+
 1. Pick the smallest unfinished slice of the plan.
 2. Write the test that fails for it. Test external behavior through the interface, never implementation details. If no failing test can be written, the seam is wrong: stop and fix the plan, not the test.
 3. Write the minimum code that makes it pass.
