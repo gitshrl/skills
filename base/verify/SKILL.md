@@ -14,6 +14,7 @@ Evidence before assertion. A claim without a fresh command run behind it is not 
 
 Rules:
 
+- Default stance: reject. A claim is false until fresh output proves it; the implementer's word is not evidence.
 - Never claim from memory of an earlier run; re-run after the last edit.
 - A skipped check is reported as skipped, not implied as passing.
 - Partial verification gets a partial claim: "tests pass; behavior not exercised" is honest, "done" is not.

@@ -31,7 +31,16 @@ The skills in `base/` are connected and project-agnostic.
 
 How they connect:
 
-The base runs as a loop: a spec steers, `implement` makes, `verify` checks, `land` closes. The maker never certifies its own work.
+### The loop
+
+The base implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Four principles:
+
+1. **The goal defines finishing; the loop only executes.** The spec's acceptance criteria are the exit condition. `implement` and `verify` cycle (a failing criterion sends work back) until every criterion is proven. Nothing is done because it feels done.
+2. **The maker never checks its own work, and the checker's default stance is reject.** `verify` gates against the spec file, never conversation memory, and treats every claim as false until fresh output proves it. At `land` the final gate is a fresh subagent that reads only the spec and the diff.
+3. **Attempts are capped.** Three failed attempts on the same criterion stop the loop and escalate to you with full context: the criterion, what was tried, the last error. Thrashing is a failure mode, not persistence.
+4. **State lives in files, not the conversation.** The spec survives session death, context compaction, and machine switches. A fresh session picks the loop up from disk, no re-briefing.
+
+Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each, or Claude Code's native `/loop` re-enters `/implement` self-paced until `verify` exits green. Add a schedule (`/schedule`) and the same harness becomes an unattended loop; the spec and skills carry the same guarantees either way.
 
 ```mermaid
 flowchart TD
@@ -45,11 +54,16 @@ flowchart TD
 
     drill -- goal, non-goals, acceptance criteria --> spec[("docs/specs/*.md")]
     spec -- criteria become failing tests --> impl
+    spec -.-> wt[worktree] -.-> impl
 
-    impl -- bug appears --> debug
-    debug --> impl
-    impl --> verify
-    verify -- criterion fails --> impl
+    subgraph loop["the maker / checker loop"]
+        impl["implement (maker)"] -- bug appears --> debug
+        debug --> impl
+        impl --> verify["verify (checker, default: reject)"]
+        verify -- criterion fails --> impl
+    end
+
+    verify -- third failed attempt --> human(["escalate: criterion, attempts, last error"])
     verify -- every criterion proven --> land[land]
     land -- fresh-eyes gate, residue to docs, spec deleted --> done([done])
 

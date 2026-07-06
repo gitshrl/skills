@@ -18,4 +18,5 @@ Rules:
 - No production code before its failing test exists.
 - Keep every diff surgical: each changed line traces to the current slice.
 - A bug or unexpected failure mid-slice routes to the `debug` skill; do not patch around symptoms.
+- Three failed attempts on the same slice stop the loop: escalate to the user with the criterion, what was tried, and the last error. No fourth attempt.
 - When the last slice lands, run the `verify` skill before claiming the work is done.

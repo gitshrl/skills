@@ -5,6 +5,8 @@ description: Execute a settled multi-task plan by dispatching a fresh subagent p
 
 Fresh subagent per task, review after each, broad review at the end.
 
+When a spec exists at `docs/specs/<slug>.md`, it is the plan: one task per acceptance criterion, and reviewers check against the spec's criteria and non-goals, not the task text alone.
+
 Pre-flight: scan the whole plan once for tasks that contradict each other or its stated constraints. Raise everything found as one batched question before task 1, not one interrupt per discovery.
 
 Per task:
