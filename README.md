@@ -20,12 +20,12 @@ The skills in `base/` are connected and project-agnostic.
 
 | Skill | Purpose | How to invoke | Invocation |
 |---|---|---|---|
-| **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. | `/drill`, or say "drill this plan" | model |
+| **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. Implementation work ends as a spec in `docs/specs/`. | `/drill`, or say "drill this plan" | model |
 | **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallize. | `/domain-model` | user only |
 | **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer is the deliverable; the code gets deleted or its validated decision absorbed into the real code. | `/prototype`, or say "prototype this" | model |
-| **implement** | Work a settled plan test-first, one thin slice at a time: failing test, minimum code, refactor green. Routes bugs to `debug` and ends by running `verify`. | `/implement`, or say "build it" | model |
+| **implement** | Work a settled plan test-first, one thin slice at a time: failing test, minimum code, refactor green. With a spec, the criteria are the plan. Routes bugs to `debug`, escalates after three failed attempts, ends by running `verify`. | `/implement`, or say "build it" | model |
 | **debug** | Root-cause a bug before fixing it: reproduce, trace to first cause, verify one hypothesis with evidence, fix, add the regression test. | `/debug`, or just report a bug | model |
-| **verify** | Prove a claim of done, fixed, or passing by running the commands and reading the output before making it. | `/verify`, fires before completion claims | model |
+| **verify** | Prove a claim of done, fixed, or passing by running the commands and reading the output before making it. Reject by default; with a spec, gates criterion by criterion and enforces the non-goals. | `/verify`, fires before completion claims | model |
 | **architecture** | Scan the codebase for deepening opportunities: shallow modules to consolidate, seams to strengthen. Presents candidates, interviews you through the one you pick, and can fan out sub-agents to design rival interfaces for it. | `/architecture` | model |
 | **core-interview** | Internal support: the interview loop `drill`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none | model, only via other skills |
 
@@ -40,7 +40,17 @@ The base implements the run-until-done loop: a bounded goal, a maker/checker cyc
 3. **Attempts are capped.** Three failed attempts on the same criterion stop the loop and escalate to you with full context: the criterion, what was tried, the last error. Thrashing is a failure mode, not persistence.
 4. **State lives in files, not the conversation.** The spec survives session death, context compaction, and machine switches. A fresh session picks the loop up from disk, no re-briefing.
 
-Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each, or Claude Code's native `/loop` re-enters `/implement` self-paced until `verify` exits green. Add a schedule (`/schedule`) and the same harness becomes an unattended loop; the spec and skills carry the same guarantees either way.
+Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each. Or drive it with Claude Code's native loop primitives:
+
+```bash
+# one branch, bounded: re-enter the loop until the spec is proven
+/loop /implement the spec at docs/specs/<slug>.md criterion by criterion; verify gates each; stop when all are proven or the attempt cap escalates
+
+# recurring, unattended: discovery on a cadence, report-only until trusted
+/loop 1d scan CI, open issues, and recent commits; surface what needs attention; propose only, do not edit code
+```
+
+Graduate an unattended loop the way you'd onboard a new hire: report-only first, small allowlisted fixes only after stable runs, human gate on anything risky. The skills carry the same guarantees either way: reject-by-default verification, attempt caps, spec-fenced scope.
 
 One work item's path through the loop (`domain-model`, `prototype`, and `architecture` feed the plan stage; their document edges are in the tables below):
 
@@ -95,14 +105,14 @@ All are created lazily, with no setup step, on any codebase. The first resolved 
 1. **`/drill`** the initial plan: walk the decision tree before any code exists. When the plan settles, drill writes the spec (goal, non-goals, acceptance criteria) to `docs/specs/`.
 2. **`/domain-model`** once the plan has domain words in it: pin the vocabulary; `CONTEXT.md` is born from the first resolved term.
 3. **`/prototype`** whichever design question survived both interviews still contested: a state model that "feels wrong" or a UI you can't picture. Keep the answer; delete the code or absorb the validated decision.
-4. **`/implement`** criterion by criterion from the spec, test-first. A bug mid-slice routes to `/debug`; `/verify` gates each criterion against fresh command output.
+4. **`/implement`** criterion by criterion from the spec, test-first, in a `/worktree` when the work needs isolation. A bug mid-slice routes to `/debug`; `/verify` gates each criterion against fresh command output, three failed attempts escalate to you.
 5. **`/land`** closes the loop: a fresh-eyes gate checks the diff against the spec, durable residue moves to ADRs/`CONTEXT.md`, the spec is deleted with the branch.
 6. **`/handoff`** when the session runs long. The next session starts where this one stopped.
 
 ## In an existing codebase
 
 1. **`/architecture`**: it explores the code (and `CONTEXT.md`/ADRs if present), then presents deepening candidates. Pick one; the interview walks constraints, dependencies, the shape of the deepened module, and what tests survive. Contested interface choices route to `/prototype`; resolved terms and rejected candidates land in `CONTEXT.md` and ADRs.
-2. **`/drill`** any change plan before implementing it, same discipline as greenfield: the settled plan becomes a spec in `docs/specs/`, and the loop (implement, verify, land) runs against it.
+2. **`/drill`** any change plan before implementing it, same discipline as greenfield: the settled plan becomes a spec in `docs/specs/`, and the loop (worktree, implement, verify, land) runs against it.
 3. **`/domain-model`** when a plan touches domain concepts the glossary doesn't cover. The codebase is cross-referenced against what you say, and contradictions surface immediately. On first contact with a codebase that has no `CONTEXT.md`, it offers a one-time seeding pass: candidate terms distilled from the code, each confirmed through the interview before it's written.
 4. **`/handoff`** to bridge sessions, same as greenfield.
 
