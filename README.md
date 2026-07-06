@@ -42,40 +42,25 @@ The base implements the run-until-done loop: a bounded goal, a maker/checker cyc
 
 Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each, or Claude Code's native `/loop` re-enters `/implement` self-paced until `verify` exits green. Add a schedule (`/schedule`) and the same harness becomes an unattended loop; the spec and skills carry the same guarantees either way.
 
+One work item's path through the loop (`domain-model`, `prototype`, and `architecture` feed the plan stage; their document edges are in the tables below):
+
 ```mermaid
 flowchart TD
-    fresh([fresh project]) --> drill
-    existing([existing codebase]) --> architecture
+    idea([idea or codebase friction]) --> drill["1. drill: settle the plan"]
+    drill -- "goal, non-goals, acceptance criteria" --> spec[("docs/specs/*.md")]
+    spec --> wt["2. worktree: isolate"]
+    wt --> impl
 
-    drill --> dm[domain-model]
-    dm --> proto[prototype]
-    proto --> impl[implement]
-    architecture -- contested interface --> proto
-
-    drill -- goal, non-goals, acceptance criteria --> spec[("docs/specs/*.md")]
-    spec -- criteria become failing tests --> impl
-    spec -.-> wt[worktree] -.-> impl
-
-    subgraph loop["the maker / checker loop"]
-        impl["implement (maker)"] -- bug appears --> debug
-        debug --> impl
-        impl --> verify["verify (checker, default: reject)"]
-        verify -- criterion fails --> impl
+    subgraph cycle["3. the maker / checker cycle"]
+        impl["implement (maker): failing test, minimum code"] --> verify["verify (checker): reject by default, quotes evidence"]
+        verify -- "criterion fails" --> impl
+        impl -. "bug: root cause first" .-> debug
+        debug -.-> impl
     end
 
-    verify -- third failed attempt --> human(["escalate: criterion, attempts, last error"])
-    verify -- every criterion proven --> land[land]
-    land -- fresh-eyes gate, residue to docs, spec deleted --> done([done])
-
-    drill -. delegates .-> ci[core-interview]
-    dm -. delegates .-> ci
-    architecture -. delegates .-> ci
-
-    dm -- writes --> docs[("CONTEXT.md + docs/adr/")]
-    architecture -- reads and writes --> docs
-    proto -- verdict as ADR --> docs
-
-    done -. session runs long .-> handoff[handoff]
+    verify -- "3 failed attempts on one criterion" --> you(["escalate to you"])
+    verify -- "every criterion proven" --> land["4. land: fresh-eyes gate"]
+    land -- "decisions to ADRs, terms to CONTEXT.md, spec deleted" --> done([branch closed])
 ```
 
 ## Utilities
