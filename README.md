@@ -116,6 +116,7 @@ Both are created lazily, with no setup step. The first resolved term creates `CO
 | Authoring or editing a skill | `write-skill` |
 | Learning a topic across sessions | `teach` |
 | Session runs long | `handoff` |
+| None of the above comes to mind | `which-skill` |
 
 ## Guidelines
 
