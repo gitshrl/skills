@@ -59,7 +59,7 @@ flowchart TD
 
 ## Utilities
 
-Skills in `utils/` support any session without being a workflow step:
+Skills at the repo root support any session without being a workflow step:
 
 | Skill | Purpose | How to invoke | Invocation |
 |---|---|---|---|
