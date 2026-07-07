@@ -32,10 +32,11 @@ This skill is _informed_ by the project's domain model: `CONTEXT.md` and any `do
 
 Read existing documentation first:
 
+- `ARCHITECTURE.md` at the root: the prior map of modules, seams, and invariants. Re-derive only what changed since it was written.
 - `CONTEXT.md` (or `CONTEXT-MAP.md` + each `CONTEXT.md` in a multi-context repo)
 - Relevant ADRs in `docs/adr/` (and any context-scoped `docs/adr/` directories)
 
-If any of these files don't exist, proceed silently. Don't flag their absence or suggest creating them upfront.
+If any of these files don't exist, proceed silently. Don't flag their absence or suggest creating them upfront. Exception: when `ARCHITECTURE.md` is missing on a nontrivial codebase, offer once to seed it from this run's exploration, using [ARCHITECTURE-FORMAT.md](ARCHITECTURE-FORMAT.md); write only what the user confirms.
 
 Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't follow rigid heuristics. Explore organically and note where you experience friction:
 
@@ -70,5 +71,6 @@ Side effects happen inline as decisions crystallize:
 
 - **Naming a deepened module after a concept not in `CONTEXT.md`?** Add the term to `CONTEXT.md`, same discipline as `/domain-model` (see [CONTEXT-FORMAT.md](../domain-model/CONTEXT-FORMAT.md)). If it doesn't exist, create it lazily when the first term is resolved.
 - **Sharpening a fuzzy term during the conversation?** Update `CONTEXT.md` right there.
+- **Did the settled design change the system's shape (new module, moved seam, new invariant)?** Update `ARCHITECTURE.md` right there, per [ARCHITECTURE-FORMAT.md](ARCHITECTURE-FORMAT.md).
 - **User rejects the candidate with a load-bearing reason?** Offer an ADR, framed as: _"Want me to record this as an ADR so future architecture reviews don't re-suggest it?"_ Only offer when the reason would actually be needed by a future explorer to avoid re-suggesting the same thing. Skip ephemeral reasons ("not worth it right now") and self-evident ones. See [ADR-FORMAT.md](../domain-model/ADR-FORMAT.md).
 - **Want to explore alternative interfaces for the deepened module?** See [INTERFACE.md](INTERFACE.md).
