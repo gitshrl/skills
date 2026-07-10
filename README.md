@@ -1,6 +1,6 @@
 # skills
 
-My [Claude Code](https://docs.claude.com/en/docs/claude-code) agent skills: a connected base suite that applies to any project, plus the engineering guidelines I run.
+A development loop for [Claude Code](https://docs.claude.com/en/docs/claude-code): connected skills that carry work from fuzzy plan to landed branch, on any project. Not a pile of skills; one flow with a fast path and a deep dial.
 
 ## Quick start (fresh machine)
 
