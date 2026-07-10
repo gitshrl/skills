@@ -34,7 +34,7 @@ for d in "$SRC"/*/ "$SRC"/*/*/; do
     name="$(basename "$d")"
     dest="$SKILLS_DIR/$name"
     # Guard: if the repo was cloned directly into ~/.claude/skills, the source
-    # IS the destination — skip the rm/cp (it would delete then copy nothing).
+    # IS the destination: skip the rm/cp (it would delete then copy nothing).
     if [ "${d%/}" -ef "$dest" ] 2>/dev/null; then
         count=$((count + 1))
         continue
@@ -83,9 +83,9 @@ else
 fi
 if command -v rtk >/dev/null 2>&1; then
     log "wiring rtk Claude Code hook (rtk init -g --auto-patch)"
-    rtk init -g --auto-patch || warn "rtk init failed — run: rtk init -g --auto-patch"
+    rtk init -g --auto-patch || warn "rtk init failed; run: rtk init -g --auto-patch"
 else
-    warn "rtk not on PATH after install — add ~/.local/bin to PATH, then: rtk init -g"
+    warn "rtk not on PATH after install; add ~/.local/bin to PATH, then: rtk init -g"
 fi
 
 [ -n "${CLEANUP:-}" ] && rm -rf "$CLEANUP"
