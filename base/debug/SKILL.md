@@ -5,6 +5,8 @@ description: Find the root cause of a bug before fixing it. Use when a bug, test
 
 No fix before root cause. Symptoms are where the search starts, never where it ends.
 
+Fast path: when the first cause is directly visible in the error output (the stack line points at it), skip the hypothesis loop but never the reproduction or the regression test. If the visible fix does not make the reproduction pass on the first try, the cause was not visible: run the full discipline. Deep mode (the `deep` skill is active): full discipline always.
+
 1. Reproduce first. Build the smallest deterministic reproduction. If it cannot be reproduced, gather evidence (logs, inputs, versions) until it can; do not guess.
 2. Read the actual error and trace it back to the first cause in the chain, not the nearest symptom.
 3. Form one hypothesis. State it. Verify it with evidence (a log line, a probe, an inspection) before touching any code.

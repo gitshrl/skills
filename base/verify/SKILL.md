@@ -18,3 +18,4 @@ Rules:
 - Never claim from memory of an earlier run; re-run after the last edit.
 - A skipped check is reported as skipped, not implied as passing.
 - Partial verification gets a partial claim: "tests pass; behavior not exercised" is honest, "done" is not.
+- Deep mode (the `deep` skill is active): exercise the changed path end to end unconditionally and gate every criterion; a partial claim is not accepted as final.

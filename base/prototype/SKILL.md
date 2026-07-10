@@ -5,6 +5,8 @@ description: Build a throwaway prototype to flesh out a design before committing
 
 A prototype is **throwaway code that answers a question**. The question decides the shape.
 
+Fast by default: build the smallest artifact that answers the question (logic: the minimal terminal app; UI: two contrasting variations). Deep mode (the `deep` skill is active): the exhaustive artifact, several radically different variations or every hard case pushed.
+
 ## Pick a branch
 
 Identify which question is being answered: from the user's prompt, the surrounding code, or by asking if the user is around:
