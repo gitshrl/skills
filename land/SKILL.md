@@ -5,6 +5,8 @@ description: Finish a development branch. Use when implementation is complete an
 
 Nothing lands unverified.
 
+Fast path. When there is no spec, the diff is small, and the user already named the path in the invocation (merge, PR, keep, discard): skip the options menu and go. On the merge path, if the merge is a fast-forward, skip the post-merge test re-run; a fast-forward produces the exact tree `verify` just passed. Any divergence from the base branch voids this: diverged merge results are new trees and get the full re-run.
+
 1. Run the `verify` skill. When a spec exists at `docs/specs/<slug>.md`, the final gate is a fresh subagent that reads only the spec and the diff and reports criterion by criterion; the maker does not certify its own work. Failing work does not reach the options menu.
 2. Detect the environment: normal checkout, named-branch worktree, or detached HEAD (externally managed workspace).
 3. Present exactly these options, no essay: merge locally to the base branch / push and open a PR / keep the branch as-is / discard. Detached HEAD drops the merge option. Discard requires the user to type "discard".

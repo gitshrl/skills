@@ -40,7 +40,7 @@ The base implements the run-until-done loop: a bounded goal, a maker/checker cyc
 3. **Attempts are capped.** Three failed attempts on the same criterion stop the loop and escalate to you with full context: the criterion, what was tried, the last error. Thrashing is a failure mode, not persistence.
 4. **State lives in files, not the conversation.** The spec survives session death, context compaction, and machine switches. A fresh session picks the loop up from disk, no re-briefing.
 
-**Fast path.** Ceremony scales with ambiguity, not with existence. An obvious task (no real decision tree, small diff) skips drill, the spec, and the worktree: state the single acceptance criterion in one sentence, implement test-first, and let `verify` gate the claim as always. If you can state the criterion in one sentence, that sentence is the spec. The tripwire: `verify` failing twice on an "obvious" task means it wasn't; stop and drill it.
+**Fast path.** Ceremony scales with ambiguity, not with existence. An obvious task (no real decision tree, small diff) skips drill, the spec, and the worktree: state the single acceptance criterion in one sentence, implement test-first, and let `verify` gate the claim as always. If you can state the criterion in one sentence, that sentence is the spec. The tripwire: `verify` failing twice on an "obvious" task means it wasn't; stop and drill it. `land` fast-paths the same way: a named path ("land: merge") skips the menu, and a fast-forward merge skips the second test run, since it produces the exact tree verify just passed.
 
 Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each. Or drive it with Claude Code's native loop primitives:
 
