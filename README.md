@@ -42,6 +42,8 @@ The base implements the run-until-done loop: a bounded goal, a maker/checker cyc
 
 **Fast path.** Ceremony scales with ambiguity, not with existence. An obvious task (no real decision tree, small diff) skips drill, the spec, and the worktree: state the single acceptance criterion in one sentence, implement test-first, and let `verify` gate the claim as always. If you can state the criterion in one sentence, that sentence is the spec. The tripwire: `verify` failing twice on an "obvious" task means it wasn't; stop and drill it. When the interview does run, it is relentless on forks and silent on defaults: only design-changing questions earn a round-trip; everything else becomes a recorded assumption you veto in one pass at the summary. `land` fast-paths the same way: a named path ("land: merge") skips the menu, and a fast-forward merge skips the second test run, since it produces the exact tree verify just passed.
 
+The ceremony dial is yours, not the model's: `/deep` turns every fast path off for the session (full interview with zero adopted assumptions, spec always written, full land menu and unconditional re-runs); `/deep off` returns to fast-first. Without deep, a genuine fork discovered mid-task is never guessed: the skill stops and names it, and you answer or go deep.
+
 Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each. Or drive it with Claude Code's native loop primitives:
 
 ```bash
@@ -90,6 +92,7 @@ Skills at the repo root support any session without being a workflow step:
 | **delegate** | Execute a settled plan with a fresh subagent per task, a review after each, and a whole-branch review at the end. | `/delegate` | model |
 | **write-skill** | Create or edit a skill test-first: record the failure without it, write the minimum that fixes it, close loopholes. | `/write-skill` | model |
 | **which-skill** | The router. Describe your situation and it names the one skill (or short chain) that fits, reading every installed skill's frontmatter so the user-only ones are never missed. | `/which-skill "i want to X"` | user only |
+| **deep** | Full ceremony mode: turns every fast path off for the session. Drill always interviews and writes the spec, the interview adopts zero assumptions, land runs the full menu and unconditional re-runs. `/deep off` returns to fast-first. | `/deep`, or `/deep "migrate auth"` | user only |
 
 ## The documents the suite maintains
 
@@ -140,6 +143,7 @@ All are created lazily, with no setup step, on any codebase. The first resolved 
 | Authoring or editing a skill | `write-skill` |
 | Learning a topic across sessions | `teach` |
 | Session runs long | `handoff` |
+| Risky or ambiguous work, full rigor wanted | `deep` |
 | None of the above comes to mind | `which-skill` |
 
 ## Guidelines

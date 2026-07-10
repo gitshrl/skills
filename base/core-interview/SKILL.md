@@ -9,3 +9,4 @@ Interview the user relentlessly about every aspect of the topic at hand until yo
 - Real forks get asked one at a time, waiting for the answer, each with your recommended answer. Low-stakes clarifications batch into a single message.
 - If a question can be answered by exploring the codebase, explore the codebase instead of asking.
 - The closing summary lists every adopted assumption for a one-pass veto. A vetoed assumption reopens only that branch.
+- Deep mode (the `deep` skill is active): ask every branch one at a time, adopt no assumptions.
