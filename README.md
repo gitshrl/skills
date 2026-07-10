@@ -1,10 +1,10 @@
 # skills
 
-My [Claude Code](https://docs.claude.com/en/docs/claude-code) agent skills: a connected base suite that applies to any project, plus the engineering guidelines and plugins I run.
+My [Claude Code](https://docs.claude.com/en/docs/claude-code) agent skills: a connected base suite that applies to any project, plus the engineering guidelines I run.
 
 ## Quick start (fresh machine)
 
-One command sets up everything. All skills go to `~/.claude/skills/`, `CLAUDE.md` + `RTK.md` go to `~/.claude/`, [rtk](https://github.com/rtk-ai/rtk) is installed + hooked, and all plugins/marketplaces are added:
+One command sets up everything. All skills go to `~/.claude/skills/`, `CLAUDE.md` + `RTK.md` go to `~/.claude/`, and [rtk](https://github.com/rtk-ai/rtk) is installed + hooked:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/gitshrl/skills/main/install.sh | bash
@@ -22,7 +22,7 @@ The skills in `base/` are connected and project-agnostic.
 |---|---|---|---|
 | **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. Implementation work ends as a spec in `docs/specs/`. | `/drill`, or say "drill this plan" | model |
 | **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallize. | `/domain-model` | user only |
-| **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer is the deliverable; the code gets deleted or its validated decision absorbed into the real code. | `/prototype`, or say "prototype this" | model |
+| **prototype** | Throwaway code that answers a design question. Logic branch: a tiny terminal app to push a state machine or data model through hard cases. UI branch: several radically different variations on one route. The answer lands in main; the prototype itself is captured on a `proto/<slug>` branch as a primary source. | `/prototype`, or say "prototype this" | model |
 | **implement** | Work a settled plan test-first, one thin slice at a time: failing test, minimum code, refactor green. With a spec, the criteria are the plan. Routes bugs to `debug`, escalates after three failed attempts, ends by running `verify`. | `/implement`, or say "build it" | model |
 | **debug** | Root-cause a bug before fixing it: reproduce, trace to first cause, verify one hypothesis with evidence, fix, add the regression test. | `/debug`, or just report a bug | model |
 | **verify** | Prove a claim of done, fixed, or passing by running the commands and reading the output before making it. Reject by default; with a spec, gates criterion by criterion and enforces the non-goals. | `/verify`, fires before completion claims | model |
@@ -39,6 +39,8 @@ The base implements the run-until-done loop: a bounded goal, a maker/checker cyc
 2. **The maker never checks its own work, and the checker's default stance is reject.** `verify` gates against the spec file, never conversation memory, and treats every claim as false until fresh output proves it. At `land` the final gate is a fresh subagent that reads only the spec and the diff.
 3. **Attempts are capped.** Three failed attempts on the same criterion stop the loop and escalate to you with full context: the criterion, what was tried, the last error. Thrashing is a failure mode, not persistence.
 4. **State lives in files, not the conversation.** The spec survives session death, context compaction, and machine switches. A fresh session picks the loop up from disk, no re-briefing.
+
+**Fast path.** Ceremony scales with ambiguity, not with existence. An obvious task (no real decision tree, small diff) skips drill, the spec, and the worktree: state the single acceptance criterion in one sentence, implement test-first, and let `verify` gate the claim as always. If you can state the criterion in one sentence, that sentence is the spec. The tripwire: `verify` failing twice on an "obvious" task means it wasn't; stop and drill it.
 
 Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each. Or drive it with Claude Code's native loop primitives:
 
@@ -99,6 +101,8 @@ Four artifacts live in your project. Three are durable; one lives only as long a
 
 - **`docs/specs/<slug>.md`**: one spec per work item, the loop's steering artifact. Goal, non-goals, checkable acceptance criteria, verification commands. `drill` writes it when the plan settles, `implement` turns criteria into failing tests, `verify` gates criterion by criterion, `land` routes durable residue to ADRs/`CONTEXT.md` and deletes it. Branch-lifetime by design; a spec that outlives its branch is stale documentation. Format: [`base/drill/SPEC-FORMAT.md`](./base/drill/SPEC-FORMAT.md).
 
+  Deleted is not gone: every spec lives in git history, and `land` writes the PR body and merge commit from it. To review old specs: `git log --diff-filter=D --name-only --format="%h %s" -- docs/specs/` lists every spec that ever existed; `git show <commit>^:docs/specs/<slug>.md` reads one in full.
+
 All are created lazily, with no setup step, on any codebase. The first resolved term creates `CONTEXT.md`; the first ADR creates `docs/adr/`; the first settled plan creates its spec; `architecture`'s first run (or the first shape-changing `land`) creates `ARCHITECTURE.md`. Skills that read them proceed silently when they're absent.
 
 ## From a fresh project
@@ -141,15 +145,3 @@ All are created lazily, with no setup step, on any codebase. The first resolved 
 ## Guidelines
 
 [`CLAUDE.md`](./CLAUDE.md) is the agent's main instruction set, installed to `~/.claude/CLAUDE.md`.
-
-## Plugins
-
-Plugins I run alongside these skills. Install via Claude Code:
-
-```
-/plugin marketplace add anthropics/claude-plugins-official
-
-# rust-analyzer language server: diagnostics, go-to-definition, type info.
-# Stack-specific: activates only in Rust projects.
-/plugin install rust-analyzer-lsp@claude-plugins-official
-```

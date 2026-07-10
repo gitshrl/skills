@@ -3,6 +3,8 @@ name: drill
 description: Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, drill into their design, or says "drill this" or "drill me".
 ---
 
+First, size the ask. If it has no real decision tree (one obvious change, a small diff, a criterion statable in one sentence), say so and route straight to `implement` with that sentence as the plan; a spec for an obvious change is ceremony. If `verify` fails twice on a task judged obvious, the task was lying about its size: stop and drill it properly.
+
 Run the `core-interview` skill against the plan or design under discussion.
 
 Shape of the session:

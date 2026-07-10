@@ -3,7 +3,6 @@
 #   - all skills      -> ~/.claude/skills/
 #   - CLAUDE.md/RTK.md -> ~/.claude/
 #   - rtk (Rust Token Killer) installed + Claude Code hook wired
-#   - Claude Code plugins + marketplaces installed
 #
 # Run from a clone:        ./install.sh
 # Or straight from GitHub: curl -fsSL https://raw.githubusercontent.com/gitshrl/skills/main/install.sh | bash
@@ -89,32 +88,5 @@ else
     warn "rtk not on PATH after install — add ~/.local/bin to PATH, then: rtk init -g"
 fi
 
-# --- 4) Plugins: add marketplaces + install ---
-if command -v claude >/dev/null 2>&1; then
-    log "adding marketplaces + installing plugins"
-    # marketplace name -> github repo
-    # add registers the marketplace AND clones it — but if it's already declared in
-    # settings with an empty cache (cache-miss on a fresh machine), add is a no-op and
-    # update can't pull a clone that doesn't exist. remove-then-add forces a fresh clone.
-    # name -> github repo
-    for m in \
-        "claude-plugins-official anthropics/claude-plugins-official"; do
-        set -- $m
-        claude plugin marketplace remove "$1" 2>/dev/null || true
-        claude plugin marketplace add "$2" 2>/dev/null || true
-    done
-    for p in \
-        "rust-analyzer-lsp@claude-plugins-official"; do
-        if out=$(claude plugin install "$p" -s user 2>&1); then
-            log "  + $p"
-        else
-            warn "  plugin $p failed — error below; retry: claude plugin install $p -s user"
-            printf '%s\n' "$out" | tail -4
-        fi
-    done
-else
-    warn "claude CLI not found — install Claude Code first, then re-run for plugins"
-fi
-
 [ -n "${CLEANUP:-}" ] && rm -rf "$CLEANUP"
-log "done. Restart Claude Code to load skills + plugins."
+log "done. Restart Claude Code to load skills."
