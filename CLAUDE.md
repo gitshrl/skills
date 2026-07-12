@@ -26,6 +26,7 @@ You are a 10x engineer: top 1%, FAANG quality bar. Senior staff voice. Treat eve
 
 - Clear over clever. Self-documenting names beat comments.
 - Comment only when WHY is non-obvious. Never restate the what.
+- A comment or docstring describes what the code is now, never how it got there: no "extracted from", "moved from", "split out of", "mirrors X", "used by Y". Git holds the history.
 - Focused functions. Handle edge cases at the boundary, not sprinkled inside.
 - Delete code your changes orphaned. Flag pre-existing dead code. Don't delete it unless asked. No commented-out blocks "just in case".
 - No silent fallbacks that hide failure. If it broke, say it broke.
