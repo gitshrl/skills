@@ -46,6 +46,8 @@ Create files lazily: only when you have something to write. If no `CONTEXT.md` e
 
 When no `CONTEXT.md` exists and the codebase is nontrivial, offer a one-time seeding pass: distill candidate terms from the code and any existing docs, then confirm each through the interview. Only confirmed terms enter the glossary; a term nobody vouched for is not written.
 
+Deep mode (the `deep` skill is active): the interview runs at full ceremony per `core-interview`. The seeding pass is still offered, never auto-run; it writes to the user's project.
+
 ## During the session
 
 ### Challenge against the glossary

@@ -21,3 +21,4 @@ Rules:
 - A bug or unexpected failure mid-slice routes to the `debug` skill; do not patch around symptoms.
 - Three failed attempts on the same slice stop the loop: escalate to the user with the criterion, what was tried, and the last error. No fourth attempt.
 - When the last slice lands, run the `verify` skill before claiming the work is done.
+- Deep mode (the `deep` skill is active): work only from the spec, criterion by criterion. No one-sentence plans.

@@ -92,7 +92,7 @@ Skills at the repo root support any session without being a workflow step:
 | **delegate** | Execute a settled plan with a fresh subagent per task, a review after each, and a whole-branch review at the end. | `/delegate` | model |
 | **write-skill** | Create or edit a skill test-first: record the failure without it, write the minimum that fixes it, close loopholes. | `/write-skill` | model |
 | **which-skill** | The router. Describe your situation and it names the one skill (or short chain) that fits, reading every installed skill's frontmatter so the user-only ones are never missed. | `/which-skill "i want to X"` | user only |
-| **deep** | Full ceremony mode: turns every fast path off across the whole suite (interview, prototype, debug, verify, architecture, delegate, land) for the session. The skill's table defines deep behavior per skill. `/deep off` returns to fast-first. | `/deep`, or `/deep "migrate auth"` | user only |
+| **deep** | Full ceremony mode: turns every fast path off across the whole suite (interview, prototype, debug, verify, architecture, delegate, land) for the session. Each skill carries its own deep behavior inline. `/deep off` returns to fast-first. | `/deep`, or `/deep "migrate auth"` | user only |
 
 ## The documents the suite maintains
 
