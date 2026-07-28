@@ -94,6 +94,23 @@ Skills at the repo root support any session without being a workflow step:
 | **which-skill** | The router. Describe your situation and it names the one skill (or short chain) that fits, reading every installed skill's frontmatter so the user-only ones are never missed. | `/which-skill "i want to X"` | user only |
 | **deep** | Full ceremony mode: turns every fast path off across the whole suite (interview, prototype, debug, verify, architecture, delegate, land) for the session. Each skill carries its own deep behavior inline. `/deep off` returns to fast-first. | `/deep`, or `/deep "migrate auth"` | user only |
 
+## Tooling
+
+Reference skills in `tooling/` for the toolchains themselves. They carry commands, configuration shape, and the pitfalls that bite in practice — loaded when the work touches that ecosystem, not as workflow steps.
+
+| Skill | Covers | Load when |
+|---|---|---|
+| **uv** | Python packages, projects, scripts, tool installs, interpreter versions | Any Python dependency, lockfile, or venv work |
+| **ruff** | Python lint and format | Checking, fixing, or formatting Python; configuring rules |
+| **rust-tooling** | cargo, clippy, rustfmt, nextest, cargo-deny, toolchain pinning | Any cargo work or dependency audit |
+| **typescript-tooling** | pnpm, TypeScript compiler, eslint/biome/oxlint, Vite, Vitest, monorepo | Setting up or building a TS project, picking between competing tools |
+| **prisma** | Schema, migrations, generated client, query patterns | Database modelling or a migration |
+
+Two rules run through all five:
+
+- **Verify versions from the registry, never from memory.** These ecosystems move monthly, and a confidently wrong version number is worse than no answer. Each skill names its authoritative source.
+- **Restraint over reach.** A formatter that rewrites files outside the diff, or a lint sweep nobody asked for, buries the actual change. Scope tool runs to the code being edited.
+
 ## The documents the suite maintains
 
 Four artifacts live in your project. Three are durable; one lives only as long as its branch:
