@@ -100,13 +100,12 @@ Reference skills in `tooling/` for the toolchains themselves. They carry command
 
 | Skill | Covers | Load when |
 |---|---|---|
-| **uv** | Python packages, projects, scripts, tool installs, interpreter versions | Any Python dependency, lockfile, or venv work |
-| **ruff** | Python lint and format | Checking, fixing, or formatting Python; configuring rules |
+| **python-tooling** | uv (packages, projects, scripts, interpreters) and ruff (lint, format) | Any Python dependency, lockfile, venv, or lint/format work |
 | **rust-tooling** | cargo, clippy, rustfmt, nextest, cargo-deny, toolchain pinning | Any cargo work or dependency audit |
 | **typescript-tooling** | pnpm, TypeScript compiler, eslint/biome/oxlint, Vite, Vitest, monorepo | Setting up or building a TS project, picking between competing tools |
 | **prisma** | Schema, migrations, generated client, query patterns | Database modelling or a migration |
 
-Two rules run through all five:
+Two rules run through all four:
 
 - **Verify versions from the registry, never from memory.** These ecosystems move monthly, and a confidently wrong version number is worse than no answer. Each skill names its authoritative source.
 - **Restraint over reach.** A formatter that rewrites files outside the diff, or a lint sweep nobody asked for, buries the actual change. Scope tool runs to the code being edited.
