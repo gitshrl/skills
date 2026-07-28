@@ -24,7 +24,7 @@ The skills in `base/` are connected and project-agnostic.
 | **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallize. | `/domain-model` | user only |
 | **implement** | Work a settled plan test-first, one thin slice at a time: failing test, minimum code, refactor green. With a spec, the criteria are the plan. Routes bugs to `debug`, escalates after three failed attempts, ends by running `verify`. | `/implement`, or say "build it" | model |
 | **verify** | Prove a claim of done, fixed, or passing by running the commands and reading the output before making it. Reject by default; with a spec, gates criterion by criterion and enforces the non-goals. | `/verify`, fires before completion claims | model |
-| **land** | Finish a branch: fresh-eyes spec gate first, then merge, PR, keep, or discard, with spec cleanup and worktree removal in the right order. PR bodies and merge commits are written from the spec, so the reason of the code survives it. | `/land` | model |
+| **land** | Finish a branch: fresh-eyes spec gate first, then merge, PR, keep, or discard, with residue routing and worktree removal in the right order. The spec file is kept unless you ask for it to go. PR bodies and merge commits are written from the spec, so the reason of the code survives it. | `/land` | model |
 | **architecture** | Scan the codebase for deepening opportunities: shallow modules to consolidate, seams to strengthen. Presents candidates, interviews you through the one you pick, and can fan out sub-agents to design rival interfaces for it. Reads and maintains `ARCHITECTURE.md`, the living map of the system. | `/architecture` | model |
 | **core-interview** | Internal support: the interview loop `drill`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none | model, only via other skills |
 
@@ -73,7 +73,7 @@ flowchart TD
 
     verify -- "3 failed attempts on one criterion" --> you(["escalate to you"])
     verify -- "every criterion proven" --> land["4. land: fresh-eyes gate"]
-    land -- "residue to ADRs, CONTEXT.md, ARCHITECTURE.md; spec deleted" --> done([branch closed])
+    land -- "residue to ADRs, CONTEXT.md, ARCHITECTURE.md; spec kept unless dropped" --> done([branch closed])
 ```
 
 ## Utilities
@@ -118,7 +118,7 @@ Four artifacts live in your project. Three are durable; one lives only as long a
 - **`ARCHITECTURE.md`**: the system as it currently is: major modules and their responsibilities, load-bearing seams, invariants. Only what stays true for years; nothing a grep answers better; one page is the budget. `architecture` reads it before exploring (and offers to seed it on first contact); `land` and `architecture` update it inline the moment a change moves the system's shape, so it never drifts from the code. Format: [`base/architecture/ARCHITECTURE-FORMAT.md`](./base/architecture/ARCHITECTURE-FORMAT.md).
 - **`docs/adr/`**: architectural decision records. Written sparingly, only when a decision is hard to reverse, surprising without context, the result of a real trade-off. `domain-model` and `architecture` offer them at the right moments; `architecture` treats existing ADRs as decisions not to re-litigate; `prototype` captures its verdict as an ADR when it passes the same test. Format: [`base/domain-model/ADR-FORMAT.md`](./base/domain-model/ADR-FORMAT.md).
 
-- **`docs/specs/<slug>.md`**: one spec per work item, the loop's steering artifact. Goal, non-goals, checkable acceptance criteria, verification commands. `drill` writes it when the plan settles, `implement` turns criteria into failing tests, `verify` gates criterion by criterion, `land` routes durable residue to ADRs/`CONTEXT.md` and deletes it. Branch-lifetime by design; a spec that outlives its branch is stale documentation. Format: [`base/drill/SPEC-FORMAT.md`](./base/drill/SPEC-FORMAT.md).
+- **`docs/specs/<slug>.md`**: one spec per work item, the loop's steering artifact. Goal, non-goals, checkable acceptance criteria, verification commands. `drill` writes it when the plan settles, `implement` turns criteria into failing tests, `verify` gates criterion by criterion, `land` routes durable residue to ADRs/`CONTEXT.md` and asks whether to keep or delete the file. Kept by default: a spec that outlives its branch is a record of why the code looks the way it does. Format: [`base/drill/SPEC-FORMAT.md`](./base/drill/SPEC-FORMAT.md).
 
   Deleted is not gone: every spec lives in git history, and `land` writes the PR body and merge commit from it. To review old specs: `git log --diff-filter=D --name-only --format="%h %s" -- docs/specs/` lists every spec that ever existed; `git show <commit>^:docs/specs/<slug>.md` reads one in full.
 
@@ -130,7 +130,7 @@ All are created lazily, with no setup step, on any codebase. The first resolved 
 2. **`/domain-model`** once the plan has domain words in it: pin the vocabulary; `CONTEXT.md` is born from the first resolved term.
 3. **`/prototype`** whichever design question survived both interviews still contested: a state model that "feels wrong" or a UI you can't picture. Keep the answer; delete the code or absorb the validated decision.
 4. **`/implement`** criterion by criterion from the spec, test-first, in a `/worktree` when the work needs isolation. A bug mid-slice routes to `/debug`; `/verify` gates each criterion against fresh command output, three failed attempts escalate to you.
-5. **`/land`** closes the loop: a fresh-eyes gate checks the diff against the spec, durable residue moves to ADRs/`CONTEXT.md`, the spec is deleted with the branch.
+5. **`/land`** closes the loop: a fresh-eyes gate checks the diff against the spec, durable residue moves to ADRs/`CONTEXT.md`, and you choose whether the spec file stays or goes.
 6. **`/handoff`** when the session runs long. The next session starts where this one stopped.
 
 ## In an existing codebase

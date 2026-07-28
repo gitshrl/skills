@@ -1,6 +1,6 @@
 # Spec Format
 
-One spec per work item, at `docs/specs/<slug>.md` in the target project. `drill` creates it when the decision tree resolves into implementation work; `land` deletes it when the branch closes. A spec is branch-lifetime steering, never permanent documentation.
+One spec per work item, at `docs/specs/<slug>.md` in the target project. `drill` creates it when the decision tree resolves into implementation work; `land` closes it when the branch closes, keeping the file unless the user asks for it to go. A spec steers a branch; keeping it afterward is a choice, not the default state of the world.
 
 ## Template
 
@@ -26,4 +26,4 @@ The exact commands that prove the criteria, one per line.
 - Every criterion is checkable. If no command or test can prove it, rewrite it until one can.
 - Non-goals are load-bearing: `verify` fails work that changes what a non-goal fences off.
 - The spec states the destination, not the route: no implementation steps, no file lists.
-- Durable residue outlives the spec elsewhere: decisions go to `docs/adr/`, settled terms to `CONTEXT.md`. The spec itself dies with the branch.
+- Durable residue is routed out regardless of the spec file's fate: decisions go to `docs/adr/`, settled terms to `CONTEXT.md`. A kept spec is a record of one branch's reasoning, not a substitute for that routing.
