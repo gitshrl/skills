@@ -10,6 +10,8 @@ Writing a skill is test-first development applied to prose.
 3. Re-run the scenario with the skill loaded. It passes or the skill is wrong.
 4. Close loopholes: new rationalizations found on re-runs get plugged, then verified again.
 
+A test harness changes mechanics, not the loop: when one exists, automate the baseline re-run.
+
 Conventions for this repo:
 
 - Frontmatter carries `name` (letters, digits, hyphens) and `description`. The description states when to fire, with trigger phrasing ("Use when..."), not a summary of the process.

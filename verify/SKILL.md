@@ -17,6 +17,7 @@ Rules:
 - Default stance: reject. A claim is false until fresh output proves it; the implementer's word is not evidence.
 - Never claim from memory of an earlier run; re-run after the last edit.
 - A skipped check is reported as skipped, not implied as passing.
+- Review feedback is a claim: verify it before implementing. Unclear feedback is checked, not obeyed.
 - Partial verification gets a partial claim: "tests pass; behavior not exercised" is honest, "done" is not.
 - Fast path (one-sentence plan, no spec file): the gate is that sentence's criterion, not the whole suite. Run only the tests that exercise the change; the changed path still runs end to end.
 - Deep mode (the `deep` skill is active): exercise the changed path end to end unconditionally and gate every criterion; a partial claim is not accepted as final.
