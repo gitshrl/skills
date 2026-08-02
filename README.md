@@ -38,21 +38,23 @@ The documents the suite maintains — all created lazily, no setup step: `CONTEX
 
 ## When to use what
 
-| Moment | Skill |
-|---|---|
-| New plan, feature, or design | `drill` |
-| Implementing a settled plan | `implement` |
-| Bug or unexpected behavior | `debug` |
-| About to claim done, fixed, or passing | `verify` |
-| Existing code fights you | `architecture` |
-| Reading legwork | `research` |
-| Branch done, needs merging or a PR | `land` |
-| Independent failures or tasks, two or more | `parallel` |
-| Multi-task plan to execute hands-off | `parallel` |
-| Authoring or editing a skill | `write-skill` |
-| Learning a topic across sessions | `teach` |
-| Risky or ambiguous work, full rigor wanted | `deep` |
-| None of the above comes to mind | `which-skill` |
+| Moment | Skill | Invocation |
+|---|---|---|
+| New plan, feature, or design | `drill` | `/drill`, or say "drill this plan" |
+| Implementing a settled plan | `implement` | `/implement`, or say "build it" |
+| Bug or unexpected behavior | `debug` | `/debug`, or just report a bug |
+| About to claim done, fixed, or passing | `verify` | `/verify` |
+| Existing code fights you | `architecture` | `/architecture` |
+| Reading legwork | `research` | `/research`, or say "research X" |
+| Branch done, needs merging or a PR | `land` | `/land` |
+| Independent failures or tasks, two or more | `parallel` | `/parallel` |
+| Multi-task plan to execute hands-off | `parallel` | `/parallel` |
+| Authoring or editing a skill | `write-skill` | `/write-skill` |
+| Learning a topic across sessions | `teach` | `/teach` |
+| Risky or ambiguous work, full rigor wanted | `deep` | `/deep`, or `/deep "migrate auth"` |
+| None of the above comes to mind | `which-skill` | `/which-skill "i want to X"` |
+
+Skills marked user-only (`teach`, `deep`, `which-skill`) fire only when you invoke them — never on their own. The rest are model-triggered too, so the slash command is always an option.
 
 ## Guidelines
 
