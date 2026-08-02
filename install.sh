@@ -2,6 +2,7 @@
 # One-command bootstrap for a fresh machine:
 #   - all skills      -> ~/.claude/skills/ and ~/.agents/skills/
 #   - CLAUDE.md/RTK.md -> ~/.claude/
+#   - codex instructions -> ~/.codex/AGENTS.md + RTK.md symlinked to ~/.claude/
 #   - rtk (Rust Token Killer) installed + Claude Code hook wired
 #
 # ~/.claude/skills/ serves Claude Code; ~/.agents/skills/ serves opencode and
@@ -100,6 +101,29 @@ for f in CLAUDE.md RTK.md; do
     cp "$SRC/$f" "$CLAUDE_DIR/$f"
     log "deployed $f"
 done
+
+# --- 2a) codex: point its global instructions at ~/.claude via symlinks so
+# CLAUDE.md stays the single source of truth. codex reads ~/.codex/AGENTS.md
+# and resolves @-references relative to that file's directory, so RTK.md
+# needs a symlink there too.
+CODEX_DIR="$HOME/.codex"
+link_codex() { # $1=name $2=source
+    local name="$1" src="$2"
+    local target="$CODEX_DIR/$name"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+        cp "$target" "$target.bak.$(date +%s)"
+        warn "backed up existing $target"
+    fi
+    ln -sfn "$src" "$target"
+    log "linked $target -> $src"
+}
+if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
+    mkdir -p "$CODEX_DIR"
+    link_codex AGENTS.md "$CLAUDE_DIR/CLAUDE.md"
+    if [ -f "$CLAUDE_DIR/RTK.md" ]; then
+        link_codex RTK.md "$CLAUDE_DIR/RTK.md"
+    fi
+fi
 
 # --- 2b) opencode: gate user-only skills (deep, which-skill) behind user
 # approval. opencode ignores disable-model-invocation, so enforce it via

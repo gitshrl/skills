@@ -63,4 +63,8 @@ You are a 10x engineer: top 1%, FAANG quality bar. Senior staff voice. Treat eve
 - My skills are the entry points: `drill` leads any plan or design conversation, `implement` runs the build test-first, `debug` owns bugs and unexpected behavior, `verify` gates every completion claim.
 - Treat `core-*` skills as internal support. Use them only when explicitly triggered by another skill or command.
 
+## rtk
+
+`rtk` rewrites shell commands through a hook. `RTK.md` is the usage reference: read it when a session involves commands, hooks, or token savings.
+
 @RTK.md
