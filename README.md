@@ -2,60 +2,17 @@
 
 A development loop for [Claude Code](https://docs.claude.com/en/docs/claude-code): connected skills that carry work from fuzzy plan to landed branch, on any project. Not a pile of skills; one flow with a fast path and a deep dial.
 
-## Quick start (fresh machine)
-
-One command sets up everything. All skills go to `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (opencode and codex), `CLAUDE.md` + `RTK.md` go to `~/.claude/`, and [rtk](https://github.com/rtk-ai/rtk) is installed + hooked:
+## Install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/gitshrl/skills/main/install.sh | bash
 ```
 
-Or from a clone: `git clone https://github.com/gitshrl/skills && ./skills/install.sh`
+Skills go to `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (opencode and codex); `CLAUDE.md` + `RTK.md` to `~/.claude/`. Idempotent — re-run to update. Restart Claude Code afterward.
 
-Idempotent: re-run any time to update (existing `CLAUDE.md`/`RTK.md` are backed up). Restart Claude Code afterward. Needs `git`, `curl`, and the `claude` CLI; rtk requires nothing extra (prebuilt binary).
+## The loop
 
-## Base suite
-
-The skills in `base/` are connected and project-agnostic.
-
-| Skill | Purpose | How to invoke | Invocation |
-|---|---|---|---|
-| **drill** | Stress-test a plan or design. A relentless one-question-at-a-time interview, each question with a recommended answer, until every branch of the decision tree is resolved. Implementation work ends as a spec in `docs/specs/`. | `/drill`, or say "drill this plan" | model |
-| **domain-model** | The same interview, but against the project's language. Calls out terms that conflict with the glossary, sharpens fuzzy ones, stress-tests relationships with concrete scenarios, and updates `CONTEXT.md`/ADRs inline as decisions crystallize. | `/domain-model` | user only |
-| **implement** | Work a settled plan test-first, one thin slice at a time: failing test, minimum code, refactor green. With a spec, the criteria are the plan. Routes bugs to `debug`, escalates after three failed attempts, ends by running `verify`. | `/implement`, or say "build it" | model |
-| **verify** | Prove a claim of done, fixed, or passing by running the commands and reading the output before making it. Reject by default; with a spec, gates criterion by criterion and enforces the non-goals. | `/verify`, fires before completion claims | model |
-| **land** | Finish a branch: fresh-eyes spec gate first, then merge, PR, keep, or discard, with residue routing and worktree removal in the right order. The spec file is kept unless you ask for it to go. PR bodies and merge commits are written from the spec, so the reason of the code survives it. | `/land` | model |
-| **architecture** | Scan the codebase for deepening opportunities: shallow modules to consolidate, seams to strengthen. Presents candidates, interviews you through the one you pick, and can fan out sub-agents to design rival interfaces for it. Reads and maintains `ARCHITECTURE.md`, the living map of the system. | `/architecture` | model |
-| **core-interview** | Internal support: the interview loop `drill`, `domain-model`, and `architecture` delegate to. Other skills trigger it; you don't invoke it directly. | none | model, only via other skills |
-
-How they connect:
-
-### The loop
-
-The base implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Four principles:
-
-1. **The goal defines finishing; the loop only executes.** The spec's acceptance criteria are the exit condition. `implement` and `verify` cycle (a failing criterion sends work back) until every criterion is proven. Nothing is done because it feels done.
-2. **The maker never checks its own work, and the checker's default stance is reject.** `verify` gates against the spec file, never conversation memory, and treats every claim as false until fresh output proves it. At `land` the final gate is a fresh subagent that reads only the spec and the diff.
-3. **Attempts are capped.** Three failed attempts on the same criterion stop the loop and escalate to you with full context: the criterion, what was tried, the last error. Thrashing is a failure mode, not persistence.
-4. **State lives in files, not the conversation.** The spec survives session death, context compaction, and machine switches. A fresh session picks the loop up from disk, no re-briefing.
-
-**Fast path.** Ceremony scales with ambiguity, not with existence. An obvious task (no real decision tree, small diff) skips drill and the spec: state the single acceptance criterion in one sentence, implement test-first, and let `verify` gate the claim as always. If you can state the criterion in one sentence, that sentence is the spec. The tripwire: `verify` failing twice on an "obvious" task means it wasn't; stop and drill it. When the interview does run, it is relentless on forks and silent on defaults: only design-changing questions earn a round-trip; everything else becomes a recorded assumption you veto in one pass at the summary. `land` fast-paths the same way: a named path ("land: merge") skips the menu, and a fast-forward merge skips the second test run, since it produces the exact tree verify just passed.
-
-The ceremony dial is yours, not the model's: `/deep` turns every fast path off for the session (full interview with zero adopted assumptions, spec always written, full land menu and unconditional re-runs); `/deep off` returns to fast-first. Without deep, a genuine fork discovered mid-task is never guessed: the skill stops and names it, and you answer or go deep.
-
-Run it hands-off with Claude Code's native loop primitives:
-
-```bash
-# one branch, bounded: re-enter the loop until the spec is proven
-/loop /implement the spec at docs/specs/<slug>.md criterion by criterion; verify gates each; stop when all are proven or the attempt cap escalates
-
-# recurring, unattended: discovery on a cadence, report-only until trusted
-/loop 1d scan CI, open issues, and recent commits; surface what needs attention; propose only, do not edit code
-```
-
-Graduate an unattended loop the way you'd onboard a new hire: report-only first, small allowlisted fixes only after stable runs, human gate on anything risky. The skills carry the same guarantees either way: reject-by-default verification, attempt caps, spec-fenced scope.
-
-One work item's path through the loop (`domain-model` and `architecture` feed the plan stage; their document edges are in the tables below):
+The base suite (drill → domain-model → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips drill and the spec — one sentence is the spec. `/deep` turns every fast path off for the session.
 
 ```mermaid
 flowchart TD
@@ -77,59 +34,7 @@ flowchart TD
     land -- "residue to ADRs, CONTEXT.md, ARCHITECTURE.md; spec kept unless dropped" --> done([branch closed])
 ```
 
-## Utilities
-
-Skills at the repo root support any session without being a workflow step:
-
-| Skill | Purpose | How to invoke | Invocation |
-|---|---|---|---|
-| **research** | Spin up a background agent that investigates a question against primary sources (official docs, source code, specs) and writes the findings to a cited markdown file in the repo. | `/research`, or say "research X" | model |
-| **teach** | A learning workspace: lessons, a mission, a glossary, and learning records that track what you actually understand across sessions. | `/teach` | user only |
-| **debug** | Root-cause a bug before fixing it: reproduce, trace to first cause, verify one hypothesis with evidence, fix, add the regression test. | `/debug`, or just report a bug | model |
-| **parallel** | One subagent per independent problem, all dispatched concurrently, integrated with a full-suite check. | `/parallel` | model |
-| **write-skill** | Create or edit a skill test-first: record the failure without it, write the minimum that fixes it, close loopholes. | `/write-skill` | model |
-| **which-skill** | The router. Describe your situation and it names the one skill (or short chain) that fits, reading every installed skill's frontmatter so the user-only ones are never missed. | `/which-skill "i want to X"` | user only |
-| **deep** | Full ceremony mode: turns every fast path off across the whole suite (interview, debug, verify, architecture, land) for the session. Each skill carries its own deep behavior inline. `/deep off` returns to fast-first. | `/deep`, or `/deep "migrate auth"` | user only |
-
-## Tooling
-
-Reference skills in `tooling/` for the toolchains themselves. They carry commands, configuration shape, and the pitfalls that bite in practice — loaded when the work touches that ecosystem, not as workflow steps.
-
-| Skill | Covers | Load when |
-|---|---|---|
-| **tooling** | uv/ruff (Python), cargo/clippy (Rust), pnpm/TS/linters (TypeScript), Prisma (databases) | Any dependency, lockfile, lint, format, build, test, or migration work in those ecosystems |
-
-Two rules run through it:
-
-- **Verify versions from the registry, never from memory.** These ecosystems move monthly, and a confidently wrong version number is worse than no answer. Each section names its authoritative source.
-- **Restraint over reach.** A formatter that rewrites files outside the diff, or a lint sweep nobody asked for, buries the actual change. Scope tool runs to the code being edited.
-
-## The documents the suite maintains
-
-Four artifacts live in your project. Three are durable; one lives only as long as its branch:
-
-- **`CONTEXT.md`**: the domain glossary, and nothing else. Terms meaningful to domain experts, free of implementation details. `domain-model` writes it as terms get resolved; `architecture` reads it so refactoring candidates speak your domain language. Repos with multiple bounded contexts use a root `CONTEXT-MAP.md` pointing to per-context `CONTEXT.md` files. Format: [`base/domain-model/CONTEXT-FORMAT.md`](./base/domain-model/CONTEXT-FORMAT.md).
-- **`ARCHITECTURE.md`**: the system as it currently is: major modules and their responsibilities, load-bearing seams, invariants. Only what stays true for years; nothing a grep answers better; one page is the budget. `architecture` reads it before exploring (and offers to seed it on first contact); `land` and `architecture` update it inline the moment a change moves the system's shape, so it never drifts from the code. Format: [`base/architecture/ARCHITECTURE-FORMAT.md`](./base/architecture/ARCHITECTURE-FORMAT.md).
-- **`docs/adr/`**: architectural decision records. Written sparingly, only when a decision is hard to reverse, surprising without context, the result of a real trade-off. `domain-model` and `architecture` offer them at the right moments; `architecture` treats existing ADRs as decisions not to re-litigate. Format: [`base/domain-model/ADR-FORMAT.md`](./base/domain-model/ADR-FORMAT.md).
-
-- **`docs/specs/<slug>.md`**: one spec per work item, the loop's steering artifact. Goal, non-goals, checkable acceptance criteria, verification commands. `drill` writes it when the plan settles, `implement` turns criteria into failing tests, `verify` gates criterion by criterion, `land` routes durable residue to ADRs/`CONTEXT.md` and asks whether to keep or delete the file. Kept by default: a spec that outlives its branch is a record of why the code looks the way it does. A spec can also start as a **draft** when the decision tree does not fit one session: it carries open decisions (each marked `AFK`, resolvable by a research subagent, or `HITL`, resolvable only with you) that sessions resolve one at a time until the draft settles into the usual form. Format: [`base/drill/SPEC-FORMAT.md`](./base/drill/SPEC-FORMAT.md).
-
-  Deleted is not gone: every spec lives in git history, and `land` writes the PR body and merge commit from it. To review old specs: `git log --diff-filter=D --name-only --format="%h %s" -- docs/specs/` lists every spec that ever existed; `git show <commit>^:docs/specs/<slug>.md` reads one in full.
-
-All are created lazily, with no setup step, on any codebase. The first resolved term creates `CONTEXT.md`; the first ADR creates `docs/adr/`; the first settled plan creates its spec; `architecture`'s first run (or the first shape-changing `land`) creates `ARCHITECTURE.md`. Skills that read them proceed silently when they're absent.
-
-## From a fresh project
-
-1. **`/drill`** the initial plan: walk the decision tree before any code exists. When the plan settles, drill writes the spec (goal, non-goals, acceptance criteria) to `docs/specs/`.
-2. **`/domain-model`** once the plan has domain words in it: pin the vocabulary; `CONTEXT.md` is born from the first resolved term.
-3. **`/implement`** criterion by criterion from the spec, test-first. A bug mid-slice routes to `/debug`; `/verify` gates each criterion against fresh command output, three failed attempts escalate to you.
-4. **`/land`** closes the loop: a fresh-eyes gate checks the diff against the spec, durable residue moves to ADRs/`CONTEXT.md`, and you choose whether the spec file stays or goes.
-
-## In an existing codebase
-
-1. **`/architecture`**: it explores the code (`ARCHITECTURE.md`, `CONTEXT.md`, and ADRs first, if present; on first contact it offers to seed the architecture map), then presents deepening candidates. Pick one; the interview walks constraints, dependencies, the shape of the deepened module, and what tests survive. Resolved terms and rejected candidates land in `CONTEXT.md` and ADRs.
-2. **`/drill`** any change plan before implementing it, same discipline as greenfield: the settled plan becomes a spec in `docs/specs/`, and the loop (implement, verify, land) runs against it.
-3. **`/domain-model`** when a plan touches domain concepts the glossary doesn't cover. The codebase is cross-referenced against what you say, and contradictions surface immediately. On first contact with a codebase that has no `CONTEXT.md`, it offers a one-time seeding pass: candidate terms distilled from the code, each confirmed through the interview before it's written.
+The documents the suite maintains — all created lazily, no setup step: `CONTEXT.md` (domain glossary), `ARCHITECTURE.md` (the system as it is), `docs/adr/` (hard-to-reverse decisions), `docs/specs/<slug>.md` (the loop's steering artifact; a spec kept after its branch is a record of why the code looks the way it does).
 
 ## When to use what
 
