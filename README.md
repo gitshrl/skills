@@ -54,7 +54,7 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Risky or ambiguous work, full rigor wanted | `deep` | user |
 | None of the above comes to mind | `which-skill` | user |
 
-User-only skills (`teach`, `deep`, `which-skill`) fire only when invoked, never on their own; the rest are model-triggered too, so the slash command is always an option.
+Model skills can fire on their own, without a slash command: `drill` even fires from the fast path (when `verify` fails twice on a task judged obvious, the task was lying: stop and drill it). User-only skills (`teach`, `deep`, `which-skill`) never fire automatically; only you can invoke them.
 
 ## Guidelines
 
