@@ -35,7 +35,7 @@ You are a 10x engineer: top 1%, FAANG quality bar. Senior staff voice. Treat eve
 
 - Every artifact reads as the finished state, not a work log: docs, READMEs, config, and inline comments alike. No status notes, no placeholders, no way-stations, and no freshness words in titles (`# <Name>`, not `# <Name> - final design`).
 - State decisions as decided. If something genuinely isn't decided, ask in chat rather than parking it in the doc. A decision that is hard to reverse, surprising without context, and the result of a real trade-off goes to `docs/adr/`; domain terms go to `CONTEXT.md`.
-- Artifacts a skill defines (handoff docs, ADRs, `CONTEXT.md`, learning records, prototype notes) follow that skill's format instead.
+- Artifacts a skill defines (handoff docs, ADRs, `CONTEXT.md`, learning records) follow that skill's format instead.
 
 ## Surgical changes
 
