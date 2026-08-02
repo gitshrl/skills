@@ -16,12 +16,31 @@ Shape of the session:
 - Before settling a direction, put 2 or 3 genuinely different approaches on the table with trade-offs, leading with a recommendation.
 - Cut ruthlessly: anything the stated constraints don't demand leaves the design.
 
+## Domain awareness
+
+The interview also challenges the plan against the project's existing domain model. During exploration, look for existing documentation:
+
+- `CONTEXT.md` at the root (or `CONTEXT-MAP.md` + per-context `CONTEXT.md` files in a multi-context repo)
+- ADRs in `docs/adr/` (and any context-scoped `docs/adr/` directories)
+
+Create files lazily: only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+
+**First contact.** When no `CONTEXT.md` exists and the codebase is nontrivial, offer a one-time seeding pass: distill candidate terms from the code and any existing docs, then confirm each through the interview. Only confirmed terms enter the glossary; a term nobody vouched for is not written.
+
+During the session:
+
+- **Challenge against the glossary.** When the user uses a term that conflicts with the existing language in `CONTEXT.md`, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y. Which is it?"
+- **Sharpen fuzzy language.** When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account'. Do you mean the Customer or the User? Those are different things."
+- **Discuss concrete scenarios.** When domain relationships are being discussed, stress-test them with specific scenarios that probe edge cases and force precision about the boundaries between concepts.
+- **Cross-reference with code.** When the user states how something works, check whether the code agrees. If you find a contradiction, surface it: "Your code cancels entire Orders, but you just said partial cancellation is possible. Which is right?"
+- **Update `CONTEXT.md` inline.** When a term is resolved, update `CONTEXT.md` right there — don't batch. It is a glossary and nothing else: not a spec, not a scratchpad, not a home for implementation decisions. Format: [CONTEXT-FORMAT.md](CONTEXT-FORMAT.md).
+- **Offer ADRs sparingly.** Only offer an ADR when all three are true: hard to reverse, surprising without context, the result of a real trade-off. If any is missing, skip it. Format: [ADR-FORMAT.md](ADR-FORMAT.md).
+
 The session ends when every branch of the decision tree is resolved: state the settled design in a short summary and get explicit agreement before any implementation starts.
 
 When the settled design is implementation work, write the spec to `docs/specs/<slug>.md` in the target project using [SPEC-FORMAT.md](SPEC-FORMAT.md): goal, non-goals, checkable acceptance criteria, verification commands. The spec steers the loop: `implement` builds from it, `verify` gates against it, `land` closes it out and asks whether to keep or delete the file.
 
 ## The tree does not fit this session — write the draft
-
 When the decision tree cannot resolve here — decisions await research beyond this context, or the tree is simply too large for one session — do not force a settled spec out of an unsettled design. Write the spec as a **draft** instead: `Destination`, `Decisions so far` (empty), `Open decisions`, `Not yet specified` (fog), `Out of scope`. Each open decision carries a Mode:
 
 - **AFK** — a `/research` subagent can resolve it alone. Fire one subagent per AFK decision, in parallel, in this session.

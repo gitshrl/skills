@@ -12,7 +12,7 @@ Skills go to `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (opencode
 
 ## The loop
 
-The base suite (drill → domain-model → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips drill and the spec — one sentence is the spec. `/deep` turns every fast path off for the session.
+The base suite (drill → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips drill and the spec — one sentence is the spec. `/deep` turns every fast path off for the session.
 
 ```mermaid
 flowchart TD
@@ -34,14 +34,13 @@ flowchart TD
     land -- "residue to ADRs, CONTEXT.md, ARCHITECTURE.md; spec kept unless dropped" --> done([branch closed])
 ```
 
-The documents the suite maintains — all created lazily, no setup step: `CONTEXT.md` (domain glossary), `ARCHITECTURE.md` (the system as it is), `docs/adr/` (hard-to-reverse decisions), `docs/specs/<slug>.md` (the loop's steering artifact; a spec kept after its branch is a record of why the code looks the way it does).
+The documents the suite maintains — all created lazily, no setup step: `CONTEXT.md` (domain glossary, born from the first resolved term), `ARCHITECTURE.md` (the system as it is), `docs/adr/` (hard-to-reverse decisions), `docs/specs/<slug>.md` (the loop's steering artifact; a spec kept after its branch is a record of why the code looks the way it does).
 
 ## When to use what
 
 | Moment | Skill |
 |---|---|
 | New plan, feature, or design | `drill` |
-| Domain language needs settling | `domain-model` |
 | Implementing a settled plan | `implement` |
 | Bug or unexpected behavior | `debug` |
 | About to claim done, fixed, or passing | `verify` |
