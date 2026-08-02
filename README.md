@@ -38,23 +38,21 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 
 ## When to use what
 
-| Moment | Skill | Invocation |
-|---|---|---|
-| New plan, feature, or design | `drill` | model |
-| Implementing a settled plan | `implement` | model |
-| Bug or unexpected behavior | `debug` | model |
-| About to claim done, fixed, or passing | `verify` | model |
-| Existing code fights you | `architecture` | model |
-| Reading legwork | `research` | model |
-| Branch done, needs merging or a PR | `land` | model |
-| Independent failures or tasks, two or more | `parallel` | model |
-| Multi-task plan to execute hands-off | `parallel` | model |
-| Authoring or editing a skill | `write-skill` | model |
-| Learning a topic across sessions | `teach` | user |
-| Risky or ambiguous work, full rigor wanted | `deep` | user |
-| None of the above comes to mind | `which-skill` | user |
-
-Model skills can fire on their own, without a slash command: `drill` even fires from the fast path (when `verify` fails twice on a task judged obvious, the task was lying: stop and drill it). User-only skills (`teach`, `deep`, `which-skill`) never fire automatically; only you can invoke them.
+| Moment | Skill |
+|---|---|
+| New plan, feature, or design | `drill` |
+| Implementing a settled plan | `implement` |
+| Bug or unexpected behavior | `debug` |
+| About to claim done, fixed, or passing | `verify` |
+| Existing code fights you | `architecture` |
+| Reading legwork | `research` |
+| Branch done, needs merging or a PR | `land` |
+| Independent failures or tasks, two or more | `parallel` |
+| Multi-task plan to execute hands-off | `parallel` |
+| Authoring or editing a skill | `write-skill` |
+| Learning a topic across sessions | `teach` |
+| Risky or ambiguous work, full rigor wanted | `deep` |
+| None of the above comes to mind | `which-skill` |
 
 ## Guidelines
 
