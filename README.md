@@ -55,7 +55,3 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Learning a topic across sessions | `teach` |
 | Risky or ambiguous work, full rigor wanted | `deep` |
 | None of the above comes to mind | `which-skill` |
-
-## Guidelines
-
-[`CLAUDE.md`](./CLAUDE.md) is the agent's main instruction set, installed to `~/.claude/CLAUDE.md`.
