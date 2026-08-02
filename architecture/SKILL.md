@@ -26,7 +26,7 @@ Key principles (see [LANGUAGE.md](LANGUAGE.md) for the full list):
 - **The interface is the test surface.**
 - **One adapter = hypothetical seam. Two adapters = real seam.**
 
-This skill is _informed_ by the project's domain model: `CONTEXT.md` and any `docs/adr/`. The domain language gives names to good seams; ADRs record decisions the skill should not re-litigate. See [CONTEXT-FORMAT.md](drill/CONTEXT-FORMAT.md) and [ADR-FORMAT.md](drill/ADR-FORMAT.md).
+This skill is _informed_ by the project's domain model: `CONTEXT.md` and any `docs/adr/`. The domain language gives names to good seams; ADRs record decisions the skill should not re-litigate. See [CONTEXT-FORMAT.md](drill/CONTEXT-FORMAT.md) and [ADR-FORMAT.md](drill/ADR-FORMAT.md). When the work touches a toolchain (Python, Rust, TypeScript, Prisma), [TOOLING.md](TOOLING.md) carries the commands, configuration shape, and pitfalls for it.
 
 ## Process
 

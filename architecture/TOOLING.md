@@ -1,9 +1,6 @@
----
-name: tooling
-description: Manage projects across the four main ecosystems — Python (uv, ruff), Rust (cargo, clippy), TypeScript/JavaScript (pnpm, compiler, linter, bundler, test runner), and databases (Prisma). Use for any dependency, lockfile, lint, format, build, test, or migration work in those toolchains.
----
+# Tooling
 
-Reference skill for the toolchains themselves: commands, configuration shape, and the pitfalls that bite in practice. Load it when the work touches one of these ecosystems; it is not a workflow step.
+Reference for the toolchains themselves: commands, configuration shape, and the pitfalls that bite in practice. Load it when the work touches one of these ecosystems; it is not a workflow step.
 
 Two rules run through all four sections:
 
