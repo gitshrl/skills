@@ -43,7 +43,7 @@ The base implements the run-until-done loop: a bounded goal, a maker/checker cyc
 
 The ceremony dial is yours, not the model's: `/deep` turns every fast path off for the session (full interview with zero adopted assumptions, spec always written, full land menu and unconditional re-runs); `/deep off` returns to fast-first. Without deep, a genuine fork discovered mid-task is never guessed: the skill stops and names it, and you answer or go deep.
 
-Run it hands-off: `/delegate` executes the spec with a fresh subagent per criterion and a review after each. Or drive it with Claude Code's native loop primitives:
+Run it hands-off with Claude Code's native loop primitives:
 
 ```bash
 # one branch, bounded: re-enter the loop until the spec is proven
@@ -83,15 +83,13 @@ Skills at the repo root support any session without being a workflow step:
 
 | Skill | Purpose | How to invoke | Invocation |
 |---|---|---|---|
-| **handoff** | Compact the session into a document the next session picks up. Pass an argument describing what the next session is for. | `/handoff "review the auth refactor"` | model |
 | **research** | Spin up a background agent that investigates a question against primary sources (official docs, source code, specs) and writes the findings to a cited markdown file in the repo. | `/research`, or say "research X" | model |
 | **teach** | A learning workspace: lessons, a mission, a glossary, and learning records that track what you actually understand across sessions. | `/teach` | user only |
 | **debug** | Root-cause a bug before fixing it: reproduce, trace to first cause, verify one hypothesis with evidence, fix, add the regression test. | `/debug`, or just report a bug | model |
 | **parallel** | One subagent per independent problem, all dispatched concurrently, integrated with a full-suite check. | `/parallel` | model |
-| **delegate** | Execute a settled plan with a fresh subagent per task, a review after each, and a whole-branch review at the end. | `/delegate` | model |
 | **write-skill** | Create or edit a skill test-first: record the failure without it, write the minimum that fixes it, close loopholes. | `/write-skill` | model |
 | **which-skill** | The router. Describe your situation and it names the one skill (or short chain) that fits, reading every installed skill's frontmatter so the user-only ones are never missed. | `/which-skill "i want to X"` | user only |
-| **deep** | Full ceremony mode: turns every fast path off across the whole suite (interview, debug, verify, architecture, delegate, land) for the session. Each skill carries its own deep behavior inline. `/deep off` returns to fast-first. | `/deep`, or `/deep "migrate auth"` | user only |
+| **deep** | Full ceremony mode: turns every fast path off across the whole suite (interview, debug, verify, architecture, land) for the session. Each skill carries its own deep behavior inline. `/deep off` returns to fast-first. | `/deep`, or `/deep "migrate auth"` | user only |
 
 ## Tooling
 
@@ -99,14 +97,11 @@ Reference skills in `tooling/` for the toolchains themselves. They carry command
 
 | Skill | Covers | Load when |
 |---|---|---|
-| **python-tooling** | uv (packages, projects, scripts, interpreters) and ruff (lint, format) | Any Python dependency, lockfile, venv, or lint/format work |
-| **rust-tooling** | cargo, clippy, rustfmt, nextest, cargo-deny, toolchain pinning | Any cargo work or dependency audit |
-| **typescript-tooling** | pnpm, TypeScript compiler, eslint/biome/oxlint, Vite, Vitest, monorepo | Setting up or building a TS project, picking between competing tools |
-| **prisma** | Schema, migrations, generated client, query patterns | Database modelling or a migration |
+| **tooling** | uv/ruff (Python), cargo/clippy (Rust), pnpm/TS/linters (TypeScript), Prisma (databases) | Any dependency, lockfile, lint, format, build, test, or migration work in those ecosystems |
 
-Two rules run through all four:
+Two rules run through it:
 
-- **Verify versions from the registry, never from memory.** These ecosystems move monthly, and a confidently wrong version number is worse than no answer. Each skill names its authoritative source.
+- **Verify versions from the registry, never from memory.** These ecosystems move monthly, and a confidently wrong version number is worse than no answer. Each section names its authoritative source.
 - **Restraint over reach.** A formatter that rewrites files outside the diff, or a lint sweep nobody asked for, buries the actual change. Scope tool runs to the code being edited.
 
 ## The documents the suite maintains
@@ -129,14 +124,12 @@ All are created lazily, with no setup step, on any codebase. The first resolved 
 2. **`/domain-model`** once the plan has domain words in it: pin the vocabulary; `CONTEXT.md` is born from the first resolved term.
 3. **`/implement`** criterion by criterion from the spec, test-first. A bug mid-slice routes to `/debug`; `/verify` gates each criterion against fresh command output, three failed attempts escalate to you.
 4. **`/land`** closes the loop: a fresh-eyes gate checks the diff against the spec, durable residue moves to ADRs/`CONTEXT.md`, and you choose whether the spec file stays or goes.
-5. **`/handoff`** when the session runs long. The next session starts where this one stopped.
 
 ## In an existing codebase
 
 1. **`/architecture`**: it explores the code (`ARCHITECTURE.md`, `CONTEXT.md`, and ADRs first, if present; on first contact it offers to seed the architecture map), then presents deepening candidates. Pick one; the interview walks constraints, dependencies, the shape of the deepened module, and what tests survive. Resolved terms and rejected candidates land in `CONTEXT.md` and ADRs.
 2. **`/drill`** any change plan before implementing it, same discipline as greenfield: the settled plan becomes a spec in `docs/specs/`, and the loop (implement, verify, land) runs against it.
 3. **`/domain-model`** when a plan touches domain concepts the glossary doesn't cover. The codebase is cross-referenced against what you say, and contradictions surface immediately. On first contact with a codebase that has no `CONTEXT.md`, it offers a one-time seeding pass: candidate terms distilled from the code, each confirmed through the interview before it's written.
-4. **`/handoff`** to bridge sessions, same as greenfield.
 
 ## When to use what
 
@@ -151,10 +144,9 @@ All are created lazily, with no setup step, on any codebase. The first resolved 
 | Reading legwork | `research` |
 | Branch done, needs merging or a PR | `land` |
 | Independent failures or tasks, two or more | `parallel` |
-| Multi-task plan to execute hands-off | `delegate` |
+| Multi-task plan to execute hands-off | `parallel` |
 | Authoring or editing a skill | `write-skill` |
 | Learning a topic across sessions | `teach` |
-| Session runs long | `handoff` |
 | Risky or ambiguous work, full rigor wanted | `deep` |
 | None of the above comes to mind | `which-skill` |
 
