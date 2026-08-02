@@ -17,6 +17,7 @@ The base suite (drill → implement → verify → land) implements the run-unti
 ```mermaid
 flowchart TD
     idea([idea or codebase friction]) --> drill["1. drill: settle the plan"]
+    idea -- "design question needs hands-on probing" --> proto["prototype: throwaway artifact answers it"] --> drill
     drill -- "goal, non-goals, acceptance criteria" --> spec[("docs/specs/*.md")]
     drill -- "tree too big for one session" --> draft[("spec as draft: open decisions")]
     draft -- "sessions resolve decisions one at a time" --> spec
