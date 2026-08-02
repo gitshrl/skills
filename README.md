@@ -12,7 +12,7 @@ Skills go to `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (opencode
 
 ## The loop
 
-The base suite (drill → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips drill and the spec (one sentence is the spec); if `verify` fails twice on a task judged obvious, the task was lying, and the path routes back through drill. `/deep` is user-only and turns every fast path off for the session.
+The base suite (drill → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips the interview and the spec (one sentence is the spec, once it passes the fork test); if `verify` fails twice on a task judged obvious, the task was lying, and the path routes back through drill. `/deep` is user-only and turns every fast path off for the session.
 
 ```mermaid
 flowchart TD
