@@ -7,7 +7,7 @@ Evidence before assertion. A claim without a fresh command run behind it is not 
 
 1. Name the claim about to be made: "done", "fixed", "passes", "works".
 2. Run the commands that would prove it false: the tests, the build, the linter, and the actual behavior that changed.
-3. When a spec exists at `docs/specs/<slug>.md`, gate criterion by criterion: run each criterion's verification command and quote the output that proves it. Then check the diff against the spec's non-goals; a change inside fenced scope fails the claim even with green tests.
+3. When a spec exists at `docs/specs/<slug>.md`, gate criterion by criterion: run each criterion's verification command and quote the output that proves it. Then check the diff against the spec's non-goals; a change inside fenced scope fails the claim even with green tests. A spec that still carries an `## Open decisions` section is a draft, and a draft proves nothing: no claim can be made against it — route back to `drill`.
 4. Exercise the changed path end to end, not only its unit tests. If the change has a runtime surface, drive it.
 5. Read the output. Passing means the output says passing, not that the command exited.
 6. State what was run and what it showed. If it broke, say it broke, with the output.

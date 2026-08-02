@@ -61,6 +61,8 @@ One work item's path through the loop (`domain-model` and `architecture` feed th
 flowchart TD
     idea([idea or codebase friction]) --> drill["1. drill: settle the plan"]
     drill -- "goal, non-goals, acceptance criteria" --> spec[("docs/specs/*.md")]
+    drill -- "tree too big for one session" --> draft[("spec as draft: open decisions")]
+    draft -- "sessions resolve decisions one at a time" --> spec
     spec --> impl
 
     subgraph cycle["2. the maker / checker cycle"]
@@ -115,7 +117,7 @@ Four artifacts live in your project. Three are durable; one lives only as long a
 - **`ARCHITECTURE.md`**: the system as it currently is: major modules and their responsibilities, load-bearing seams, invariants. Only what stays true for years; nothing a grep answers better; one page is the budget. `architecture` reads it before exploring (and offers to seed it on first contact); `land` and `architecture` update it inline the moment a change moves the system's shape, so it never drifts from the code. Format: [`base/architecture/ARCHITECTURE-FORMAT.md`](./base/architecture/ARCHITECTURE-FORMAT.md).
 - **`docs/adr/`**: architectural decision records. Written sparingly, only when a decision is hard to reverse, surprising without context, the result of a real trade-off. `domain-model` and `architecture` offer them at the right moments; `architecture` treats existing ADRs as decisions not to re-litigate. Format: [`base/domain-model/ADR-FORMAT.md`](./base/domain-model/ADR-FORMAT.md).
 
-- **`docs/specs/<slug>.md`**: one spec per work item, the loop's steering artifact. Goal, non-goals, checkable acceptance criteria, verification commands. `drill` writes it when the plan settles, `implement` turns criteria into failing tests, `verify` gates criterion by criterion, `land` routes durable residue to ADRs/`CONTEXT.md` and asks whether to keep or delete the file. Kept by default: a spec that outlives its branch is a record of why the code looks the way it does. Format: [`base/drill/SPEC-FORMAT.md`](./base/drill/SPEC-FORMAT.md).
+- **`docs/specs/<slug>.md`**: one spec per work item, the loop's steering artifact. Goal, non-goals, checkable acceptance criteria, verification commands. `drill` writes it when the plan settles, `implement` turns criteria into failing tests, `verify` gates criterion by criterion, `land` routes durable residue to ADRs/`CONTEXT.md` and asks whether to keep or delete the file. Kept by default: a spec that outlives its branch is a record of why the code looks the way it does. A spec can also start as a **draft** when the decision tree does not fit one session: it carries open decisions (each marked `AFK`, resolvable by a research subagent, or `HITL`, resolvable only with you) that sessions resolve one at a time until the draft settles into the usual form. Format: [`base/drill/SPEC-FORMAT.md`](./base/drill/SPEC-FORMAT.md).
 
   Deleted is not gone: every spec lives in git history, and `land` writes the PR body and merge commit from it. To review old specs: `git log --diff-filter=D --name-only --format="%h %s" -- docs/specs/` lists every spec that ever existed; `git show <commit>^:docs/specs/<slug>.md` reads one in full.
 
