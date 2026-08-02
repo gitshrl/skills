@@ -8,11 +8,11 @@ A development loop for [Claude Code](https://docs.claude.com/en/docs/claude-code
 curl -fsSL https://raw.githubusercontent.com/gitshrl/skills/main/install.sh | bash
 ```
 
-Skills go to `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (opencode and codex); `CLAUDE.md` + `RTK.md` to `~/.claude/`. Idempotent — re-run to update. Restart Claude Code afterward.
+Skills go to `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (opencode and codex); `CLAUDE.md` + `RTK.md` to `~/.claude/`. Idempotent: re-run to update. Restart Claude Code afterward.
 
 ## The loop
 
-The base suite (drill → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips drill and the spec — one sentence is the spec. `/deep` turns every fast path off for the session.
+The base suite (drill → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips drill and the spec: one sentence is the spec. `/deep` turns every fast path off for the session.
 
 ```mermaid
 flowchart TD
@@ -34,7 +34,7 @@ flowchart TD
     land -- "residue to ADRs, CONTEXT.md, ARCHITECTURE.md; spec kept unless dropped" --> done([branch closed])
 ```
 
-The documents the suite maintains — all created lazily, no setup step: `CONTEXT.md` (domain glossary, born from the first resolved term), `ARCHITECTURE.md` (the system as it is), `docs/adr/` (hard-to-reverse decisions), `docs/specs/<slug>.md` (the loop's steering artifact; a spec kept after its branch is a record of why the code looks the way it does).
+The documents the suite maintains, all created lazily with no setup step: `CONTEXT.md` (domain glossary, born from the first resolved term), `ARCHITECTURE.md` (the system as it is), `docs/adr/` (hard-to-reverse decisions), `docs/specs/<slug>.md` (the loop's steering artifact; a spec kept after its branch is a record of why the code looks the way it does).
 
 ## When to use what
 
@@ -54,7 +54,7 @@ The documents the suite maintains — all created lazily, no setup step: `CONTEX
 | Risky or ambiguous work, full rigor wanted | `deep` | `/deep`, or `/deep "migrate auth"` |
 | None of the above comes to mind | `which-skill` | `/which-skill "i want to X"` |
 
-Skills marked user-only (`teach`, `deep`, `which-skill`) fire only when you invoke them — never on their own. The rest are model-triggered too, so the slash command is always an option.
+Skills marked user-only (`teach`, `deep`, `which-skill`) fire only when you invoke them, never on their own. The rest are model-triggered too, so the slash command is always an option.
 
 ## Guidelines
 
