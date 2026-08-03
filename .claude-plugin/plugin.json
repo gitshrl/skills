@@ -1,0 +1,36 @@
+{
+  "name": "gitshrl-skills",
+  "version": "1.0.0",
+  "description": "A development loop for Claude Code: connected skills that carry work from fuzzy plan to landed branch (drill, implement, verify, land), with a fast path and a user-held deep dial.",
+  "author": {
+    "name": "pwguler",
+    "url": "https://github.com/pwguler"
+  },
+  "homepage": "https://github.com/pwguler/skills",
+  "repository": "https://github.com/pwguler/skills",
+  "keywords": [
+    "engineering",
+    "skills",
+    "development-loop",
+    "tdd",
+    "code-review",
+    "verification",
+    "planning"
+  ],
+  "skills": [
+    "./architecture",
+    "./core-interview",
+    "./debug",
+    "./deep",
+    "./drill",
+    "./implement",
+    "./land",
+    "./parallel",
+    "./prototype",
+    "./research",
+    "./teach",
+    "./verify",
+    "./which-skill",
+    "./write-skill"
+  ]
+}

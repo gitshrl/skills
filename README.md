@@ -4,11 +4,28 @@ A development loop for [Claude Code](https://docs.claude.com/en/docs/claude-code
 
 ## Install
 
+Pick one path. Installing both loads every skill twice in Claude Code.
+
+**Claude Code plugin** (read-only, updates via version):
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/gitshrl/skills/main/install.sh | bash
+claude plugin marketplace add pwguler/skills
+claude plugin install gitshrl-skills
 ```
 
-Skills go to `~/.claude/skills/` (Claude Code) and `~/.agents/skills/` (opencode and codex); `CLAUDE.md` + `RTK.md` to `~/.claude/`. Idempotent: re-run to update. Restart Claude Code afterward.
+**Script** (editable copies for opencode and codex, plus the instruction layer):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/pwguler/skills/main/install.sh | bash
+```
+
+The script installs skills to `~/.agents/skills/` (opencode and codex), deploys `CLAUDE.md` + `RTK.md` to `~/.claude/` (with a backup of any existing file), and wires the codex symlink, the opencode gating, and rtk. Idempotent: re-run to update. Restart Claude Code afterward.
+
+Switching from the script to the plugin: remove the legacy copies so the suite loads once:
+
+```bash
+rm -rf ~/.claude/skills/{architecture,core-interview,debug,deep,drill,implement,land,parallel,prototype,research,teach,verify,which-skill,write-skill}
+```
 
 ## The loop
 

@@ -1,0 +1,22 @@
+{
+  "name": "gitshrl",
+  "owner": {
+    "name": "pwguler",
+    "url": "https://github.com/pwguler"
+  },
+  "description": "A development loop for Claude Code, installable as a plugin: connected skills that carry work from fuzzy plan to landed branch.",
+  "plugins": [
+    {
+      "name": "gitshrl-skills",
+      "source": "./",
+      "description": "A development loop for Claude Code: drill, implement, verify, land, with a fast path and a deep dial.",
+      "category": "engineering",
+      "keywords": [
+        "engineering",
+        "skills",
+        "development-loop",
+        "verification"
+      ]
+    }
+  ]
+}

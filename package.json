@@ -1,0 +1,6 @@
+{
+  "name": "gitshrl-skills",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Version anchor for the gitshrl-skills Claude Code plugin; keep in sync with .claude-plugin/plugin.json"
+}

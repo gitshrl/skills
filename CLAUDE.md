@@ -76,4 +76,8 @@ You are a 10x engineer: top 1%, FAANG quality bar. Senior staff voice. Treat eve
 
 `rtk` rewrites shell commands through a hook. `RTK.md` is the usage reference: read it when a session involves commands, hooks, or token savings.
 
+## Plugin
+
+The repo ships as a Claude Code plugin. `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` are the manifests; `package.json` is the version anchor. Keep the `plugin.json` and `package.json` versions in sync. After touching either manifest, run `claude plugin validate . --strict`.
+
 @RTK.md

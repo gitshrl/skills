@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
 # One-command bootstrap for a fresh machine:
-#   - all skills      -> ~/.claude/skills/ and ~/.agents/skills/
+#   - skills          -> ~/.agents/skills (opencode and codex)
 #   - CLAUDE.md/RTK.md -> ~/.claude/
 #   - codex instructions -> ~/.codex/AGENTS.md + RTK.md symlinked to ~/.claude/
 #   - rtk (Rust Token Killer) installed + Claude Code hook wired
 #
-# ~/.claude/skills/ serves Claude Code; ~/.agents/skills/ serves opencode and
-# codex, which both scan it natively.
+# Claude Code users: install the suite as a plugin instead of copying skills:
+#   claude plugin marketplace add pwguler/skills
+#   claude plugin install gitshrl-skills
+# The plugin is read-only and updates via its version. Installing both the
+# plugin and legacy copies in the Claude Code skills directory loads every
+# skill twice.
+#
+# ~/.agents/skills serves opencode and codex, which both scan it natively.
 #
 # Run from a clone:        ./install.sh
-# Or straight from GitHub: curl -fsSL https://raw.githubusercontent.com/gitshrl/skills/main/install.sh | bash
+# Or straight from GitHub: curl -fsSL https://raw.githubusercontent.com/pwguler/skills/main/install.sh | bash
 set -euo pipefail
 
-REPO_URL="https://github.com/gitshrl/skills.git"
+REPO_URL="https://github.com/pwguler/skills.git"
 CLAUDE_DIR="$HOME/.claude"
-CLAUDE_SKILLS="$CLAUDE_DIR/skills"
 AGENTS_SKILLS="$HOME/.agents/skills"
 
 log() { printf '\033[1;36m==>\033[0m %s\n' "$*"; }
@@ -73,7 +78,6 @@ install_skills() {
     done
 }
 
-install_skills "$CLAUDE_SKILLS"
 install_skills "$AGENTS_SKILLS"
 
 # --- 1b) Flatten a legacy nested layout (~/.agents/skills/skills/<name>).
