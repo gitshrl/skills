@@ -1,6 +1,6 @@
 # skills
 
-A development loop for [Claude Code](https://docs.claude.com/en/docs/claude-code): connected skills that carry work from fuzzy plan to landed branch, on any project. Not a pile of skills; one flow with a fast path and a deep dial.
+Connected skills that carry work from fuzzy plan to landed branch, on any project. Not a pile of skills; one flow with a fast path and a deep dial.
 
 ## Install
 
