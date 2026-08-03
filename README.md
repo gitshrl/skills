@@ -13,13 +13,15 @@ claude plugin marketplace add pwguler/skills
 claude plugin install pwguler-skills
 ```
 
+Or in a session: `/plugin marketplace add pwguler/skills`, then `/plugin install pwguler-skills`.
+
 **`npx skills`**:
 
 ```bash
 npx skills add pwguler/skills
 ```
 
-The plugin ships all 14 skills as a managed bundle. `npx skills` copies the same skills into your local skills directory.
+Ships all 14 skills as a managed bundle. `npx skills` installs them into your local skills directory.
 
 Restart Claude Code after installing.
 
