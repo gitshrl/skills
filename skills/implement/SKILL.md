@@ -16,6 +16,7 @@ When a spec exists at `docs/specs/<slug>.md`, its acceptance criteria are the pl
 Rules:
 
 - No production code before its failing test exists.
+- A test that passes regardless of the change protects nothing; grep-style string checks counterfeit falsifiability.
 - Keep every diff surgical: each changed line traces to the current slice.
 - Each slice's commit message names the criterion it satisfies and the why, not only the what.
 - A bug or unexpected failure mid-slice routes to the `debug` skill; do not patch around symptoms.
