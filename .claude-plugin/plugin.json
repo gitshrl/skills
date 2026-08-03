@@ -9,28 +9,27 @@
   "homepage": "https://github.com/pwguler/skills",
   "repository": "https://github.com/pwguler/skills",
   "keywords": [
-    "engineering",
-    "skills",
     "development-loop",
-    "tdd",
-    "code-review",
     "verification",
-    "planning"
+    "planning",
+    "spec-driven",
+    "fast-path",
+    "deep-dial"
   ],
   "skills": [
-    "./architecture",
-    "./core-interview",
-    "./debug",
-    "./deep",
-    "./drill",
-    "./implement",
-    "./land",
-    "./parallel",
-    "./prototype",
-    "./research",
-    "./teach",
-    "./verify",
-    "./which-skill",
-    "./write-skill"
+    "./skills/architecture",
+    "./skills/core-interview",
+    "./skills/debug",
+    "./skills/deep",
+    "./skills/drill",
+    "./skills/implement",
+    "./skills/land",
+    "./skills/parallel",
+    "./skills/prototype",
+    "./skills/research",
+    "./skills/teach",
+    "./skills/verify",
+    "./skills/which-skill",
+    "./skills/write-skill"
   ]
 }

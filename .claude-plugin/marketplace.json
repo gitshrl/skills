@@ -12,10 +12,9 @@
       "description": "A development loop for Claude Code: drill, implement, verify, land, with a fast path and a deep dial.",
       "category": "engineering",
       "keywords": [
-        "engineering",
-        "skills",
         "development-loop",
-        "verification"
+        "verification",
+        "planning"
       ]
     }
   ]
