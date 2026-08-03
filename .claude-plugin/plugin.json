@@ -9,12 +9,8 @@
   "homepage": "https://github.com/pwguler/skills",
   "repository": "https://github.com/pwguler/skills",
   "keywords": [
-    "development-loop",
-    "verification",
-    "planning",
-    "spec-driven",
-    "fast-path",
-    "deep-dial"
+    "skills",
+    "loop"
   ],
   "skills": [
     "./skills/architecture",
