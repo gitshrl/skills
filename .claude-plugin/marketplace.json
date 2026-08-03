@@ -9,7 +9,7 @@
     {
       "name": "pwguler-skills",
       "source": "./",
-      "description": "Connected skills for Claude Code: drill, implement, verify, land",
+      "description": "Connected skills for Claude Code",
       "category": "engineering",
       "keywords": [
         "skills",

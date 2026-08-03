@@ -1,7 +1,7 @@
 {
   "name": "pwguler-skills",
   "version": "1.0.0",
-  "description": "Connected skills for Claude Code: drill, implement, verify, land",
+  "description": "Connected skills for Claude Code",
   "author": {
     "name": "pwguler",
     "url": "https://github.com/pwguler"
