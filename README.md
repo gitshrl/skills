@@ -13,7 +13,12 @@ claude plugin marketplace add pwguler/skills
 claude plugin install pwguler-skills
 ```
 
-Or in a session, in the editor as well: `/plugin marketplace add pwguler/skills`, then `/plugin install pwguler-skills`.
+Or in a session, in the editor as well:
+
+```bash
+/plugin marketplace add pwguler/skills
+/plugin install pwguler-skills
+```
 
 **`npx skills`**:
 
