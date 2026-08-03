@@ -1,5 +1,5 @@
 {
-  "name": "gitshrl-skills",
+  "name": "pwguler-skills",
   "version": "1.0.0",
   "description": "A development loop for Claude Code: connected skills that carry work from fuzzy plan to landed branch (drill, implement, verify, land), with a fast path and a user-held deep dial.",
   "author": {

@@ -1,7 +1,7 @@
 # plugin-and-trimmed-installer
 
 ## Goal
-Ship gitshrl/skills as a Claude Code plugin (plugin path for Claude Code) and trim install.sh to agents + instruction layer only, under the pwguler account.
+Ship pwguler/skills as a Claude Code plugin (plugin path for Claude Code) and trim install.sh to agents + instruction layer only, under the pwguler account.
 
 ## Non-goals
 - No interactive selection menu in the installer; the two paths are the selection

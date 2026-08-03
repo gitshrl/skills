@@ -7,7 +7,7 @@
 #
 # Claude Code users: install the suite as a plugin instead of copying skills:
 #   claude plugin marketplace add pwguler/skills
-#   claude plugin install gitshrl-skills
+#   claude plugin install pwguler-skills
 # The plugin is read-only and updates via its version. Installing both the
 # plugin and legacy copies in the Claude Code skills directory loads every
 # skill twice.
@@ -28,7 +28,7 @@ warn() { printf '\033[1;33m!! \033[0m %s\n' "$*"; }
 # --- Locate the repo: run-in-place if SKILL dirs are next to us, else clone ---
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)"
 if [ -z "$SRC" ] || [ ! -f "$SRC/CLAUDE.md" ]; then
-    SRC="${TMPDIR:-/tmp}/gitshrl-skills-$$"
+    SRC="${TMPDIR:-/tmp}/pwguler-skills-$$"
     log "cloning $REPO_URL"
     git clone --depth 1 "$REPO_URL" "$SRC"
     CLEANUP="$SRC"

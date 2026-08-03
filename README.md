@@ -10,7 +10,7 @@ Pick one path. Installing both loads every skill twice in Claude Code.
 
 ```bash
 claude plugin marketplace add pwguler/skills
-claude plugin install gitshrl-skills
+claude plugin install pwguler-skills
 ```
 
 **Script** (editable copies for opencode and codex, plus the instruction layer):
