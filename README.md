@@ -4,22 +4,22 @@ A development loop for [Claude Code](https://docs.claude.com/en/docs/claude-code
 
 ## Install
 
-Two paths, both for Claude Code. Pick one — installing both loads every skill twice.
+Two paths, both for Claude Code. Pick one: installing both loads every skill twice.
 
-**Plugin** (read-only, updates via version):
+**Plugin** (updates via version):
 
 ```bash
 claude plugin marketplace add pwguler/skills
 claude plugin install pwguler-skills
 ```
 
-**`npx skills`** (editable copies, hackable):
+**`npx skills`**:
 
 ```bash
 npx skills add pwguler/skills
 ```
 
-The plugin ships all 14 skills as a managed bundle. `npx skills` copies the same skills into your local skills directory so you can edit them.
+The plugin ships all 14 skills as a managed bundle. `npx skills` copies the same skills into your local skills directory.
 
 Restart Claude Code after installing.
 
