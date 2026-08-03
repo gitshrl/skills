@@ -21,8 +21,6 @@ Or in a session, terminal or editor: `/plugin marketplace add pwguler/skills`, t
 npx skills add pwguler/skills
 ```
 
-Ships all 14 skills as a managed bundle. `npx skills` installs them into your local skills directory.
-
 Restart Claude Code after installing.
 
 ## The loop
