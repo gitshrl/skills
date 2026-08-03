@@ -19,11 +19,7 @@ claude plugin install pwguler-skills
 npx skills add pwguler/skills
 ```
 
-The plugin ships all 14 skills as a managed bundle. `npx skills` copies the same skills into your local skills directory so you can edit them. Both paths skip the instruction layer: `CLAUDE.md`, `RTK.md`, and the rtk hook are optional extras, copied manually:
-
-```bash
-cp CLAUDE.md RTK.md ~/.claude/   # after cloning the repo
-```
+The plugin ships all 14 skills as a managed bundle. `npx skills` copies the same skills into your local skills directory so you can edit them.
 
 Restart Claude Code after installing.
 
