@@ -1,7 +1,7 @@
 {
   "name": "pwguler-skills",
   "version": "1.0.0",
-  "description": "Connected skills that carry work from fuzzy plan to landed branch (drill, implement, verify, land), with a fast path and a user-held deep dial.",
+  "description": "Connected skills for Claude Code: drill, implement, verify, land",
   "author": {
     "name": "pwguler",
     "url": "https://github.com/pwguler"

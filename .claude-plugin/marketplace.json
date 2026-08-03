@@ -9,7 +9,7 @@
     {
       "name": "pwguler-skills",
       "source": "./",
-      "description": "Connected skills: drill, implement, verify, land, with a fast path and a deep dial.",
+      "description": "Connected skills for Claude Code: drill, implement, verify, land",
       "category": "engineering",
       "keywords": [
         "skills",

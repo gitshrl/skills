@@ -1,6 +1,6 @@
 # skills
 
-Connected skills for Claude Code: drill, implement, verify, land. Not a pile of skills; one flow with a fast path and a deep dial.
+Connected skills that carry work from fuzzy plan to landed branch, on any project. Not a pile of skills; one flow with a fast path and a deep dial.
 
 ## Install
 
