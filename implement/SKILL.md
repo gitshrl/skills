@@ -1,6 +1,6 @@
 ---
 name: implement
-description: Implement a settled plan test-first, smallest slice at a time. Use when starting implementation of a feature or fix after the plan is settled, or when user says "implement this" or "build it".
+description: "Implement a settled plan test-first, smallest slice at a time. Use when starting implementation of a feature or fix after the plan is settled, or when user says \"implement this\" or \"build it\"."
 ---
 
 Work the plan one thin slice at a time. A slice is the smallest piece that changes observable behavior.

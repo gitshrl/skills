@@ -1,32 +1,28 @@
 # plugin-and-trimmed-installer
 
 ## Goal
-Ship pwguler/skills as a Claude Code plugin (plugin path for Claude Code) and trim install.sh to agents + instruction layer only, under the pwguler account.
+Ship pwguler/skills for Claude Code only: a plugin marketplace as the primary path, a `npx skills` path for editable copies, and no installer script.
 
 ## Non-goals
-- No interactive selection menu in the installer; the two paths are the selection
-- No npx skills CLI, no skills.sh service
-- No plugin manifests for codex, cursor, or kimi
-- No per-skill selective install
-- No auto-cleanup of legacy `~/.claude/skills` copies; cleanup is manual, documented in the README
-- No instruction layer (CLAUDE.md, RTK.md, rtk) inside the plugin; plugin ships skills only
-- No opencode.jsonc handling in install.sh; the jq branch covers opencode.json only
+- No installer script (install.sh is deleted)
+- No opencode, codex, or other non-Claude harness targets
+- No interactive selection menu; the two Claude paths are the selection
+- No per-skill selective install; the suite ships as a whole loop
+- No instruction layer (CLAUDE.md, RTK.md, rtk) inside the plugin or the npx skills bundle; those extras stay manual, documented in the README
 
 ## Acceptance criteria
 - AC-1: `claude plugin validate . --strict` passes against the repo root
 - AC-2: `.claude-plugin/plugin.json` ships exactly the 14 flat skill dirs at repo root
 - AC-3: `package.json` version equals `plugin.json` version
-- AC-4: install.sh has no reference to `~/.claude/skills` for skills install or pruning
-- AC-5: install.sh still installs skills to `~/.agents/skills` with stale-skill pruning, and still deploys CLAUDE.md + RTK.md (backup first), the codex symlink, the opencode gating, and rtk + hook
-- AC-6: REPO_URL in install.sh and every install URL in the README point at `github.com/pwguler/skills`
-- AC-7: README documents the two paths (plugin vs script) with a pick-one warning and the manual cleanup command for legacy copies
-- AC-8: the repo CLAUDE.md (and its AGENTS.md copy, if duplicated) carries the plugin validation and version-sync rules
+- AC-4: install.sh is absent from the repo
+- AC-5: `npx skills add pwguler/skills` discovers exactly the 14 flat skill dirs (depth-1 root scan) without a `skills/` subdirectory
+- AC-6: README documents both paths (plugin vs npx skills) with a pick-one warning and the manual instruction-layer step
+- AC-7: the repo CLAUDE.md (and its AGENTS.md hardlink copy) carries the plugin validation and version-sync rules
 
 ## Verification
-- `bash -n install.sh`
 - `claude plugin validate . --strict`
+- `git ls-files | grep -c install.sh` returns 0
 - `jq -e '.skills | length == 14' .claude-plugin/plugin.json`
 - `jq -e '.version' .claude-plugin/plugin.json` equals `jq -e '.version' package.json`
-- `grep -c "claude/skills" install.sh` returns 0
-- `grep -c "pwguler" install.sh README.md` returns 2 or more
-- `./install.sh` re-runs idempotently on this machine
+- `npx skills add pwguler/skills` in a temp directory installs 14 skills
+- `grep -c "npx skills" README.md` returns 1 or more

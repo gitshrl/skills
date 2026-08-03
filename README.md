@@ -4,28 +4,28 @@ A development loop for [Claude Code](https://docs.claude.com/en/docs/claude-code
 
 ## Install
 
-Pick one path. Installing both loads every skill twice in Claude Code.
+Two paths, both for Claude Code. Pick one — installing both loads every skill twice.
 
-**Claude Code plugin** (read-only, updates via version):
+**Plugin** (read-only, updates via version):
 
 ```bash
 claude plugin marketplace add pwguler/skills
 claude plugin install pwguler-skills
 ```
 
-**Script** (editable copies for opencode and codex, plus the instruction layer):
+**`npx skills`** (editable copies, hackable):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pwguler/skills/main/install.sh | bash
+npx skills add pwguler/skills
 ```
 
-The script installs skills to `~/.agents/skills/` (opencode and codex), deploys `CLAUDE.md` + `RTK.md` to `~/.claude/` (with a backup of any existing file), and wires the codex symlink, the opencode gating, and rtk. Idempotent: re-run to update. Restart Claude Code afterward.
-
-Switching from the script to the plugin: remove the legacy copies so the suite loads once:
+The plugin ships all 14 skills as a managed bundle. `npx skills` copies the same skills into your local skills directory so you can edit them. Both paths skip the instruction layer: `CLAUDE.md`, `RTK.md`, and the rtk hook are optional extras, copied manually:
 
 ```bash
-rm -rf ~/.claude/skills/{architecture,core-interview,debug,deep,drill,implement,land,parallel,prototype,research,teach,verify,which-skill,write-skill}
+cp CLAUDE.md RTK.md ~/.claude/   # after cloning the repo
 ```
+
+Restart Claude Code after installing.
 
 ## The loop
 
