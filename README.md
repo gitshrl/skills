@@ -28,6 +28,23 @@ npx skills add pwguler/skills
 
 Restart Claude Code after installing.
 
+## Uninstall
+
+**Plugin**:
+
+```bash
+claude plugin uninstall pwguler-skills
+claude plugin marketplace remove pwguler
+```
+
+**`npx skills`**:
+
+```bash
+npx skills remove
+```
+
+Restart Claude Code after uninstalling.
+
 ## The loop
 
 The base suite (drill → implement → verify → land) implements the run-until-done loop: a bounded goal, a maker/checker cycle, an exit only on proven criteria. Fast path: an obvious task skips the interview; one sentence is the spec, once it passes the fork test. If `verify` fails twice, the task was lying: route back through drill. `/deep` is user-only and turns every fast path off for the session.
