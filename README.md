@@ -65,8 +65,8 @@ flowchart TD
         debug -.-> impl
     end
 
-    verify -- "3 failed attempts on one criterion" --> you(["escalate to you"])
     verify -- "every criterion proven" --> land["3. land: fresh-eyes gate"]
+    impl -- "3 failed attempts on one slice" --> you(["escalate to you"])
     land -- "residue to ADRs, CONTEXT.md, ARCHITECTURE.md; spec kept unless dropped" --> done([branch closed])
 ```
 
@@ -90,3 +90,5 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Learning a topic across sessions | `teach` |
 | Risky or ambiguous work, full rigor wanted | `deep` |
 | None of the above comes to mind | `which-skill` |
+
+`core-interview` is internal support: `drill` and `architecture` run it, you do not invoke it directly.
