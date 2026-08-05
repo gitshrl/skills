@@ -13,9 +13,10 @@ Spawn a separate full Claude Code session in a tmux window, never a subagent. Th
    - Name the skills the session should run, as slash commands. Do not restate what a skill already enforces; one line ("run `/debug` on it, `/verify` before done") replaces a paragraph.
    - Fence the collision zone: name the files and branches this session is using that the spawned one must not touch.
    - No secrets. Keys, tokens, and credentials never enter a briefing.
-2. Spawn without stealing focus, from the project root:
-   `tmux new-window -d -n <slug> -c <root> 'claude --permission-mode auto "$(cat docs/spawn/<slug>.md)"'`
-   Outside tmux, wrap the same command in `tmux new-session -d -s <slug>` and tell the user to `tmux attach -t <slug>`.
-3. Report the window name and one line on what it will do, then return to the current work. The spawned session is the user's to join, steer, or kill.
+2. Ask the user, in one round: where the session goes (a pane beside the current work, or its own window), and how much permission it gets (`--dangerously-skip-permissions`, or not; not means `--permission-mode auto`). Then spawn without stealing focus, from the project root, with the chosen flag as `<perm>`:
+   - Window: `tmux new-window -d -n <slug> -c <root> 'claude <perm> "$(cat docs/spawn/<slug>.md)"'`
+   - Pane: `tmux split-window -d -h -c <root> 'claude <perm> "$(cat docs/spawn/<slug>.md)"'`
+   Outside tmux, wrap the window command in `tmux new-session -d -s <slug>` and tell the user to `tmux attach -t <slug>`.
+3. Report where the session lives (window name, or pane in the current window) and one line on what it will do, then return to the current work. The spawned session is the user's to join, steer, or kill.
 
 Working a draft spec (a `docs/specs/<slug>.md` that still has `## Open decisions`): offer one spawn per open, unblocked decision. Claim the decision in the spec before its session spawns; the briefing carries the spec path and the decision name, nothing the spec already says.
