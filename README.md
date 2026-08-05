@@ -83,6 +83,7 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Reading legwork | `research` |
 | Branch done, needs merging or a PR | `land` |
 | Independent failures or tasks, two or more | `parallel` |
+| Work that needs its own full session, in a tmux pane | `spawn` |
 | Multi-task plan to execute hands-off | `parallel` |
 | Authoring or editing anything an agent reads | `write-skill` |
 | Learning a topic across sessions | `teach` |

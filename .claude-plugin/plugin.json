@@ -24,6 +24,7 @@
     "./skills/land",
     "./skills/parallel",
     "./skills/research",
+    "./skills/spawn",
     "./skills/teach",
     "./skills/verify",
     "./skills/which-skill",
