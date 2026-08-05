@@ -86,6 +86,7 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Multi-task plan to execute hands-off | `parallel` |
 | Authoring or editing a skill | `write-skill` |
 | Learning a topic across sessions | `teach` |
+| A message did not land, you stopped following | `huh` |
 | Risky or ambiguous work, full rigor wanted | `deep` |
 | None of the above comes to mind | `which-skill` |
 

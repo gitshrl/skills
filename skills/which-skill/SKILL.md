@@ -10,6 +10,6 @@ The user does not know which skill fits their situation. Find the one that does.
 2. If the situation is ambiguous between skills, ask one clarifying question. Otherwise ask nothing.
 3. Answer with one skill, or a short ordered chain when the situation spans stages. Name the trigger (slash command or phrase). No menus.
 
-When a chain is needed, the workflow order is: drill (fuzzy plan; domain terms settle here too) → implement (settled plan; debug owns anything that breaks along the way) → verify (before claiming done) → architecture (existing code fights you). Session utilities sit outside the chain: research, teach (user-only), land, parallel, write-skill.
+When a chain is needed, the workflow order is: drill (fuzzy plan; domain terms settle here too) → implement (settled plan; debug owns anything that breaks along the way) → verify (before claiming done) → architecture (existing code fights you). Session utilities sit outside the chain: research, teach (user-only), huh (user-only), land, parallel, write-skill.
 
 Never propose writing a new skill until step 1 has ruled out every existing one, including the hidden ones.
