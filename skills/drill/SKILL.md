@@ -52,7 +52,7 @@ Writing the draft is one session's work: name the destination, sketch the fronti
 
 1. Load the whole spec — the low-res view, not one decision's deep dive.
 2. Pick the next open decision; if the user named one, use that. Claim it before working it.
-3. Resolve it: AFK decisions read the findings the subagent left; HITL decisions are worked with the user, one question at a time, through the `core-interview` skill.
+3. Resolve it: AFK decisions read the findings the subagent left; HITL decisions are worked with the user through the `core-interview` skill.
 4. Record the resolution in `Decisions so far`, and remove the decision from `Open decisions`. Graduate anything now sharp from `Not yet specified` into fresh open decisions. A decision revealed to sit beyond the destination is ruled out of scope instead of resolved.
 5. When the last open decision closes, delete the `## Open decisions` section — the spec is settled and the loop takes over.
 
