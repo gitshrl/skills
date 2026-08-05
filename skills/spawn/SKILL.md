@@ -14,7 +14,7 @@ Spawn a separate full Claude Code session in a tmux window, never a subagent. Th
    - Fence the collision zone: name the files and branches this session is using that the spawned one must not touch.
    - No secrets. Keys, tokens, and credentials never enter a briefing.
 2. Spawn without stealing focus, from the project root:
-   `tmux new-window -d -n <slug> -c <root> 'claude "$(cat docs/spawn/<slug>.md)"'`
+   `tmux new-window -d -n <slug> -c <root> 'claude --permission-mode auto "$(cat docs/spawn/<slug>.md)"'`
    Outside tmux, wrap the same command in `tmux new-session -d -s <slug>` and tell the user to `tmux attach -t <slug>`.
 3. Report the window name and one line on what it will do, then return to the current work. The spawned session is the user's to join, steer, or kill.
 
