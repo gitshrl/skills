@@ -84,7 +84,7 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Branch done, needs merging or a PR | `land` |
 | Independent failures or tasks, two or more | `parallel` |
 | Multi-task plan to execute hands-off | `parallel` |
-| Authoring or editing a skill | `write-skill` |
+| Authoring or editing anything an agent reads | `write-skill` |
 | Learning a topic across sessions | `teach` |
 | A message did not land, you stopped following | `huh` |
 | Risky or ambiguous work, full rigor wanted | `deep` |
