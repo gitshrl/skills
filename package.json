@@ -1,6 +1,6 @@
 {
   "name": "pwguler-skills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Version anchor for the pwguler-skills Claude Code plugin; keep in sync with .claude-plugin/plugin.json"
 }
