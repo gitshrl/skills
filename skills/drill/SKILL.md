@@ -33,27 +33,27 @@ During the session:
 - **Sharpen fuzzy language.** When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account'. Do you mean the Customer or the User? Those are different things."
 - **Discuss concrete scenarios.** When domain relationships are being discussed, stress-test them with specific scenarios that probe edge cases and force precision about the boundaries between concepts.
 - **Cross-reference with code.** When the user states how something works, check whether the code agrees. If you find a contradiction, surface it: "Your code cancels entire Orders, but you just said partial cancellation is possible. Which is right?"
-- **Update `CONTEXT.md` inline.** When a term is resolved, update `CONTEXT.md` right there — don't batch. It is a glossary and nothing else: not a spec, not a scratchpad, not a home for implementation decisions. Format: [CONTEXT-FORMAT.md](CONTEXT-FORMAT.md).
+- **Update `CONTEXT.md` inline.** When a term is resolved, update `CONTEXT.md` right there; don't batch. It is a glossary and nothing else: not a spec, not a scratchpad, not a home for implementation decisions. Format: [CONTEXT-FORMAT.md](CONTEXT-FORMAT.md).
 - **Offer ADRs sparingly.** Only offer an ADR when all three are true: hard to reverse, surprising without context, the result of a real trade-off. If any is missing, skip it. Format: [ADR-FORMAT.md](ADR-FORMAT.md).
 
 The session ends when every branch of the decision tree is resolved: state the settled design in a short summary and get explicit agreement before any implementation starts.
 
 When the settled design is implementation work, write the spec to `docs/specs/<slug>.md` in the target project using [SPEC-FORMAT.md](SPEC-FORMAT.md): goal, non-goals, checkable acceptance criteria, verification commands. The spec steers the loop: `implement` builds from it, `verify` gates against it, `land` closes it out and asks whether to keep or delete the file.
 
-## The tree does not fit this session — write the draft
-When the decision tree cannot resolve here — decisions await research beyond this context, or the tree is simply too large for one session — do not force a settled spec out of an unsettled design. Write the spec as a **draft** instead: `Destination`, `Decisions so far` (empty), `Open decisions`, `Not yet specified` (fog), `Out of scope`. Each open decision carries a Mode:
+## The tree does not fit this session: write the draft
+When the decision tree cannot resolve here (decisions await research beyond this context, or the tree is simply too large for one session), do not force a settled spec out of an unsettled design. Write the spec as a **draft** instead: `Destination`, `Decisions so far` (empty), `Open decisions`, `Not yet specified` (fog), `Out of scope`. Each open decision carries a Mode:
 
-- **AFK** — a `/research` subagent can resolve it alone. Fire one subagent per AFK decision, in parallel, in this session.
-- **HITL** — only a live exchange with the user resolves it. Never answer your own HITL question.
+- **AFK**: a `/research` subagent can resolve it alone. Fire one subagent per AFK decision, in parallel, in this session.
+- **HITL**: only a live exchange with the user resolves it. Never answer your own HITL question.
 
 Writing the draft is one session's work: name the destination, sketch the frontier, write the draft, fire the AFK subagents, stop. It resolves nothing itself.
 
 **Later sessions work the draft.** When a session opens a spec that still has an `## Open decisions` section:
 
-1. Load the whole spec — the low-res view, not one decision's deep dive.
+1. Load the whole spec: the low-res view, not one decision's deep dive.
 2. Pick the next open decision; if the user named one, use that. Claim it before working it.
 3. Resolve it: AFK decisions read the findings the subagent left; HITL decisions are worked with the user through the `core-interview` skill.
 4. Record the resolution in `Decisions so far`, and remove the decision from `Open decisions`. Graduate anything now sharp from `Not yet specified` into fresh open decisions. A decision revealed to sit beyond the destination is ruled out of scope instead of resolved.
-5. When the last open decision closes, delete the `## Open decisions` section — the spec is settled and the loop takes over.
+5. When the last open decision closes, delete the `## Open decisions` section: the spec is settled and the loop takes over.
 
-One decision per session, except AFK decisions already dispatched. If no fog surfaces at all — the way is clear and the journey fits one session — there is no draft; settle normally.
+One decision per session, except AFK decisions already dispatched. If no fog surfaces at all (the way is clear and the journey fits one session), there is no draft; settle normally.

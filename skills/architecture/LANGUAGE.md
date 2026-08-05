@@ -10,7 +10,7 @@ _Avoid_: unit, component, service.
 
 **Interface**
 Everything a caller must know to use the module correctly. Includes the type signature, but also invariants, ordering constraints, error modes, required configuration, and performance characteristics.
-Language-agnostic: the interface may be a type signature (TypeScript, Java), a duck-typed protocol (Python), or a trait (Rust) — it is whatever a caller must know, however the language expresses it.
+Language-agnostic: the interface may be a type signature (TypeScript, Java), a duck-typed protocol (Python), or a trait (Rust); it is whatever a caller must know, however the language expresses it.
 _Avoid_: API, signature (too narrow: those refer only to the type-level surface).
 
 **Implementation**

@@ -7,7 +7,7 @@ Two rules run through all four sections:
 - **Verify versions from the registry, never from memory.** These ecosystems move monthly, and a confidently wrong version number is worse than no answer. Each section names its authoritative source.
 - **Restraint over reach.** A formatter that rewrites files outside the diff, or a lint sweep nobody asked for, buries the actual change. Scope tool runs to the code being edited.
 
-## Python — uv and ruff
+## Python: uv and ruff
 
 Two tools cover what used to take eight. **uv** replaces pip, pip-tools, pipx, virtualenv, pyenv, and poetry. **ruff** replaces flake8, isort, black, pyupgrade, and autoflake.
 
@@ -17,7 +17,7 @@ uv: the project has a `uv.lock`, or a `requirements*.txt` with a `# This file wa
 
 **Do not** use uv against a project managed by something else: a `poetry.lock` means poetry, a `pdm.lock` means pdm. Use the tool the project already committed to.
 
-### uv — projects
+### uv: projects
 
 Never call `pip` directly and never activate a venv by hand. `uv run` resolves the environment itself.
 
@@ -33,7 +33,7 @@ uv lock --check               # verify the lock matches pyproject
 
 `uv add` edits `pyproject.toml` and the lock together. Editing `pyproject.toml` by hand then running `uv sync` also works, but the two must never drift.
 
-### uv — scripts
+### uv: scripts
 
 A standalone script declares its own dependencies inline (PEP 723) instead of needing a project:
 
@@ -45,7 +45,7 @@ uv run analyze.py
 
 This is the right shape for one-off tooling. No venv to create, no requirements file to maintain, and the script stays runnable by itself.
 
-### uv — tools and interpreters
+### uv: tools and interpreters
 
 ```bash
 uvx ruff check .              # run a tool without installing it
@@ -54,9 +54,9 @@ uv python install 3.13
 uv python pin 3.13            # writes .python-version
 ```
 
-`uvx` is the pipx replacement; prefer it for anything invoked once. uv downloads interpreters itself, so the system Python is irrelevant — this is why it works on PEP 668 systems (Debian/Ubuntu externally-managed environments) where `pip install` is refused outright.
+`uvx` is the pipx replacement; prefer it for anything invoked once. uv downloads interpreters itself, so the system Python is irrelevant; this is why it works on PEP 668 systems (Debian/Ubuntu externally-managed environments) where `pip install` is refused outright.
 
-### ruff — commands
+### ruff: commands
 
 ```bash
 ruff check .                  # lint
@@ -68,7 +68,7 @@ ruff format --diff .          # show formatting without writing
 
 Under uv: `uvx ruff check .`, or `uv run ruff check .` when it is a project dependency.
 
-### ruff — restraint is the rule
+### ruff: restraint is the rule
 
 Ruff makes it trivial to rewrite an entire codebase. Do not.
 
@@ -76,7 +76,7 @@ Ruff makes it trivial to rewrite an entire codebase. Do not.
 - **Scope fixes to what you are editing.** `ruff check --diff` shows what would change; apply only to files already in your diff, unless the user asks for a sweep.
 - **A separate formatting commit, never a mixed one.** Formatting churn and a behavior change in the same commit make review impossible.
 
-### ruff — configuration
+### ruff: configuration
 
 Lives in `pyproject.toml` under `[tool.ruff]`, or `ruff.toml`.
 
@@ -94,19 +94,19 @@ ignore = ["E501"]
 
 Two viable strategies, and they are opposite:
 
-**Broad** — `select = ["ALL"]` with an explicit ignore list. Best on a new codebase; every new rule arrives opted-in and must be justified to remove.
+**Broad**: `select = ["ALL"]` with an explicit ignore list. Best on a new codebase; every new rule arrives opted-in and must be justified to remove.
 
-**Narrow** — select only rules that caught a real bug in this codebase. Best on a large existing codebase where `ALL` would produce thousands of findings nobody triages. A single well-chosen rule that is actually enforced beats 400 that are ignored.
+**Narrow**: select only rules that caught a real bug in this codebase. Best on a large existing codebase where `ALL` would produce thousands of findings nobody triages. A single well-chosen rule that is actually enforced beats 400 that are ignored.
 
 Pick one deliberately. Do not enable rules because they exist.
 
-### Python — type checking
+### Python: type checking
 
 No settled winner. mypy and pyright are the mature options; ty (Astral) and pyrefly are newer.
 
-Check what the project already uses before introducing one. If adopting ty, note its own README declares it beta with breaking diagnostic changes possible between any two versions — run it alongside an established checker rather than gating CI on it alone. Real projects that adopt it keep mypy or pyright authoritative and let ty run with a shrinking exclusion list.
+Check what the project already uses before introducing one. If adopting ty, note its own README declares it beta with breaking diagnostic changes possible between any two versions; run it alongside an established checker rather than gating CI on it alone. Real projects that adopt it keep mypy or pyright authoritative and let ty run with a shrinking exclusion list.
 
-### Python — verifying versions
+### Python: verifying versions
 
 Registry is authoritative, memory is not:
 
@@ -115,9 +115,9 @@ uv --version && ruff --version
 curl -s https://pypi.org/pypi/ruff/json | python3 -c "import sys,json; print(json.load(sys.stdin)['info']['version'])"
 ```
 
-### Python — pitfalls
+### Python: pitfalls
 
-- **Commit `uv.lock`.** For applications it is the reproducibility guarantee. For libraries, commit it too — it pins the dev environment without constraining consumers.
+- **Commit `uv.lock`.** For applications it is the reproducibility guarantee. For libraries, commit it too; it pins the dev environment without constraining consumers.
 - **`uv sync` deletes what is not in the lock.** A package installed ad hoc disappears on the next sync. Add it properly.
 - **`uv sync --locked` in CI, `uv sync` locally.** The former fails loudly on a stale lock instead of silently resolving a different tree than the one reviewed.
 - **`uv pip install` is an escape hatch.** It writes to the venv without touching the lock, so the next sync reverts it. Reach for `uv add`.
@@ -126,7 +126,7 @@ curl -s https://pypi.org/pypi/ruff/json | python3 -c "import sys,json; print(jso
 - **`--unsafe-fixes` can change behavior.** Review that diff; do not trust it blind.
 - **`# noqa` needs a code.** Bare `# noqa` silences everything on the line, including the bug you have not written yet. Write `# noqa: E731`.
 
-## Rust — the cargo toolchain
+## Rust: the cargo toolchain
 
 The Rust toolchain ships its own linter, formatter, and test runner. Reach outside it only for the gaps: faster test output, security auditing, license policy.
 
@@ -169,9 +169,9 @@ channel = "1.97.1"
 components = ["clippy", "rustfmt"]
 ```
 
-rustup honors this automatically. Everyone — including CI — gets the same compiler without being told.
+rustup honors this automatically. Everyone, including CI, gets the same compiler without being told.
 
-### Rust — error handling convention
+### Rust: error handling convention
 
 The split is near-universal and worth following:
 
@@ -180,9 +180,9 @@ The split is near-universal and worth following:
 - **`eyre`/`color-eyre`** in CLIs that want pretty reports.
 - **`miette`** only when source-span diagnostics matter (a compiler, a parser).
 
-Do not put `anyhow` in a library's public API — it erases the type information the caller needs.
+Do not put `anyhow` in a library's public API; it erases the type information the caller needs.
 
-### Rust — verifying versions
+### Rust: verifying versions
 
 crates.io lies about bundled tools. `clippy` and `rustfmt` on crates.io are abandoned 2017-2018 placeholders; the real versions live only in the rustup channel manifest.
 
@@ -194,13 +194,13 @@ cargo clippy --version && cargo fmt --version
 For the current stable release, read the dist manifest, not a blog post:
 `https://static.rust-lang.org/dist/channel-rust-stable.toml`
 
-### Rust — pitfalls
+### Rust: pitfalls
 
 - **Clippy without `--all-targets` gives false confidence.** Test code goes unlinted.
 - **`cargo test` compiles test binaries per target.** Consolidating integration tests into one `tests/it/main.rs` with `mod` declarations noticeably cuts build time on large suites.
-- **MSRV is a promise.** If `rust-version` is set in `Cargo.toml`, CI must actually build with it — a dependency bump can raise the real floor silently.
+- **MSRV is a promise.** If `rust-version` is set in `Cargo.toml`, CI must actually build with it; a dependency bump can raise the real floor silently.
 - **`cargo update` is not `cargo upgrade`.** The former moves within your semver ranges; the latter (from `cargo-edit`) rewrites the ranges themselves.
-- **cranelift is nightly-only.** It is listed in the stable manifest with zero available targets — present in the component list, not actually installable.
+- **cranelift is nightly-only.** It is listed in the stable manifest with zero available targets: present in the component list, not actually installable.
 
 ## TypeScript/JavaScript
 
@@ -225,7 +225,7 @@ Pin it in `package.json` so everyone resolves the same resolver:
 
 npm is fine for a single package with no workspace. yarn is legacy unless already in use.
 
-**bun** is both a package manager and a runtime; treat those decisions separately. As a package manager it is fast and fine. As a *production runtime* check its release cadence first — a long publish gap on the npm registry is a real signal, and it has had one.
+**bun** is both a package manager and a runtime; treat those decisions separately. As a package manager it is fast and fine. As a *production runtime* check its release cadence first: a long publish gap on the npm registry is a real signal, and it has had one.
 
 ### Compiler
 
@@ -255,11 +255,11 @@ Three live options, and real projects have picked all three:
 
 Do not run two formatters. Pick one and delete the other's config, or they will fight in CI.
 
-ESLint v9 is end-of-life — if a project is still on it, upgrading to v10 is maintenance, not a nice-to-have.
+ESLint v9 is end-of-life; if a project is still on it, upgrading to v10 is maintenance, not a nice-to-have.
 
 ### Build and test
 
-- **Vite** for apps. Vite 8 replaced both esbuild and Rollup internally with Rolldown — same API, different engine underneath.
+- **Vite** for apps. Vite 8 replaced both esbuild and Rollup internally with Rolldown: same API, different engine underneath.
 - **tsdown** / **tsup** for libraries.
 - **Vitest** for tests. `bun test` if the project is already all-in on bun.
 
@@ -275,7 +275,7 @@ pnpm vitest --coverage
 
 Check Turbo's declared TypeScript support before assuming it works with TS 7.
 
-### TypeScript — pitfalls
+### TypeScript: pitfalls
 
 - **`"type": "module"` is not optional any more.** Half the ecosystem is ESM-only. Setting it late is a painful migration; set it at the start.
 - **A dependency's types can break your build without its runtime changing.** Pin `typescript` exactly and upgrade deliberately.
@@ -283,7 +283,7 @@ Check Turbo's declared TypeScript support before assuming it works with TS 7.
 - **Verify versions from the registry, not from memory.** `npm view <pkg> version` and `https://registry.npmjs.org/<pkg>` are authoritative; this ecosystem moves monthly.
 - **Do not mix package managers.** A `package-lock.json` next to a `pnpm-lock.yaml` means two different dependency trees; delete the one you are not using.
 
-## Databases — Prisma
+## Databases: Prisma
 
 Prisma is a schema-first ORM: the `.prisma` schema is the source of truth, and the TypeScript client is generated from it. Never hand-edit generated output.
 
@@ -303,7 +303,7 @@ npx prisma migrate status                # drift check
 ### The loop
 
 1. Edit `schema.prisma`.
-2. `prisma migrate dev --name <what-changed>` — writes SQL to `prisma/migrations/`.
+2. `prisma migrate dev --name <what-changed>`: writes SQL to `prisma/migrations/`.
 3. Review the generated SQL. It is committed code; read it like code.
 4. Client types regenerate automatically; TypeScript now fails wherever the model changed.
 
@@ -318,7 +318,7 @@ Prisma 7 is a breaking release. Confirm which major a project is on before touch
 - **MongoDB is not supported on v7 yet.** A MongoDB project stays on v6.
 - **Node ≥ 20.19, TypeScript ≥ 5.4.**
 
-The docs publish a markdown version of every page by appending `.md` to the URL, plus `llms.txt` — read those directly instead of scraping HTML.
+The docs publish a markdown version of every page by appending `.md` to the URL, plus `llms.txt`; read those directly instead of scraping HTML.
 
 ### Querying
 
@@ -331,16 +331,16 @@ const users = await prisma.user.findMany({
 
 `include` returns full relations; `select` returns only named fields and is what you want on a hot path. Both narrow the return type, so over-fetching is visible in the types.
 
-Use `prisma.$transaction([...])` for atomic multi-writes. Interactive transactions hold a connection for their whole callback — keep them short.
+Use `prisma.$transaction([...])` for atomic multi-writes. Interactive transactions hold a connection for their whole callback; keep them short.
 
 ### When not to Prisma
 
-- **drizzle-orm** — SQL-shaped, no codegen step, thin runtime. Better when the SQL matters more than the abstraction.
-- **kysely** — a typed query builder, not an ORM. Best when you want to write SQL with type safety and nothing else.
+- **drizzle-orm**: SQL-shaped, no codegen step, thin runtime. Better when the SQL matters more than the abstraction.
+- **kysely**: a typed query builder, not an ORM. Best when you want to write SQL with type safety and nothing else.
 
 Prisma earns its weight through migrations and generated types. If a project needs neither, it is overhead.
 
-### Prisma — pitfalls
+### Prisma: pitfalls
 
 - **Never edit `prisma/migrations/` after it has been applied anywhere.** Write a new migration instead; the applied history is a shared fact.
 - **`prisma db push` skips migration files.** It is for prototyping only. Using it on a database that also has migrations desynchronizes both.
