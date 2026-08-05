@@ -28,22 +28,21 @@ npx skills add pwguler/skills
 
 Restart Claude Code after installing.
 
-## Uninstall
+## Update
 
 **Plugin**:
 
 ```bash
-claude plugin uninstall pwguler-skills
-claude plugin marketplace remove pwguler
+claude plugin update pwguler-skills
 ```
 
 **`npx skills`**:
 
 ```bash
-npx skills remove
+npx skills update
 ```
 
-Restart Claude Code after uninstalling.
+Restart Claude Code after updating.
 
 ## The loop
 
