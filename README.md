@@ -52,7 +52,6 @@ The base suite (drill → implement → verify → land) implements the run-unti
 ```mermaid
 flowchart TD
     idea([idea or codebase friction]) --> drill["1. drill: settle the plan"]
-    idea -- "design question needs hands-on probing" --> proto["prototype: throwaway artifact answers it"] --> drill
     drill -- "goal, non-goals, acceptance criteria" --> spec[("docs/specs/*.md")]
     drill -- "tree too big for one session" --> draft[("spec as draft: open decisions")]
     draft -- "sessions resolve decisions one at a time" --> spec
@@ -77,7 +76,6 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Moment | Skill |
 |---|---|
 | New plan, feature, or design | `drill` |
-| Design question needs a throwaway artifact before committing | `prototype` |
 | Implementing a settled plan | `implement` |
 | Bug or unexpected behavior | `debug` |
 | About to claim done, fixed, or passing | `verify` |
