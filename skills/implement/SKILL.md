@@ -15,8 +15,8 @@ When a spec exists at `docs/specs/<slug>.md`, its acceptance criteria are the pl
 
 Rules:
 
-- Implementation runs on its own git branch, never on `main` or `development`. Create it before the first test; the spec slug names it when one exists. A session already on a feature branch stays there.
-- One implementation at a time. While a branch is unlanded, no second implement starts and the branch is never left: no checkout back to `main` or `development`. Only `land` ends the work and returns the checkout.
+- On `main` or `development`, recommend a git branch before the first test and ask; the spec slug names it. Implementing on the base branch is the user's call to make, not yours to assume. A session already on a feature branch stays there.
+- One implementation at a time. Unlanded work is never abandoned for a new task on your own: name the options (finish and land it, land it partial, or park it) and let the user pick. Only `land` ends the work.
 - No production code before its failing test exists.
 - A test that passes regardless of the change protects nothing; grep-style string checks counterfeit falsifiability.
 - Keep every diff surgical: each changed line traces to the current slice.
