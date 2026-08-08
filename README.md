@@ -87,6 +87,5 @@ The documents the suite maintains, all created lazily with no setup step: `CONTE
 | Authoring or editing anything an agent reads | `write-skill` |
 | Learning a topic across sessions | `teach` |
 | Risky or ambiguous work, full rigor wanted | `deep` |
-| None of the above comes to mind | `which-skill` |
 
 `core-interview` is internal support: `drill` and `architecture` run it, you do not invoke it directly.
