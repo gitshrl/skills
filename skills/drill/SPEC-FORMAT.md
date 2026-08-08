@@ -62,7 +62,7 @@ The exact commands that prove the criteria, one per line.
 
 ## Draft rules
 
-- **Mode is who resolves the decision.** `AFK` (away from keyboard): a `/research` subagent resolves it alone, fired in parallel from the session that wrote the draft. `HITL` (human in the loop): only a live exchange with the user resolves it; an agent answering its own HITL question has broken the loop.
+- **Mode is who resolves the decision.** `AFK` (away from keyboard): a `/research` subagent resolves it alone, fired in parallel from the session that wrote the draft, writing its findings to `docs/research/<slug>-<decision-slug>.md`. `HITL` (human in the loop): only a live exchange with the user resolves it; an agent answering its own HITL question has broken the loop.
 - **One decision per session**, except research decisions already dispatched as subagents. Claim the decision you work: mark it claimed before starting.
 - **Refer to decisions by name**, never by number or slug. Names read at a glance; ids do not.
 - **Fog or decision?** The test is whether you can state the question precisely now, not whether you can answer it now. Sharp question → `Open decisions`; too coarse to phrase → `Not yet specified`.

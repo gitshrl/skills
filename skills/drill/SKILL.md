@@ -43,7 +43,7 @@ When the settled design is implementation work, write the spec to `docs/specs/<s
 ## The tree does not fit this session: write the draft
 When the decision tree cannot resolve here (decisions await research beyond this context, or the tree is simply too large for one session), do not force a settled spec out of an unsettled design. Write the spec as a **draft** instead: `Destination`, `Decisions so far` (empty), `Open decisions`, `Not yet specified` (fog), `Out of scope`. Each open decision carries a Mode:
 
-- **AFK**: a `/research` subagent can resolve it alone. Fire one subagent per AFK decision, in parallel, in this session.
+- **AFK**: a `/research` subagent can resolve it alone. Fire one subagent per AFK decision, in parallel, in this session, each writing its findings to `docs/research/<slug>-<decision-slug>.md`.
 - **HITL**: only a live exchange with the user resolves it. Never answer your own HITL question.
 
 Writing the draft is one session's work: name the destination, sketch the frontier, write the draft, fire the AFK subagents, stop. It resolves nothing itself.
@@ -52,7 +52,7 @@ Writing the draft is one session's work: name the destination, sketch the fronti
 
 1. Load the whole spec: the low-res view, not one decision's deep dive.
 2. Pick the next open decision; if the user named one, use that. Claim it before working it.
-3. Resolve it: AFK decisions read the findings the subagent left; HITL decisions are worked with the user, one question at a time, through the `core-interview` skill.
+3. Resolve it: AFK decisions read the findings the subagent left at `docs/research/<slug>-<decision-slug>.md`; HITL decisions are worked with the user, one question at a time, through the `core-interview` skill.
 4. Record the resolution in `Decisions so far`, and remove the decision from `Open decisions`. Graduate anything now sharp from `Not yet specified` into fresh open decisions. A decision revealed to sit beyond the destination is ruled out of scope instead of resolved.
 5. When the last open decision closes, delete the `## Open decisions` section: the spec is settled and the loop takes over.
 
