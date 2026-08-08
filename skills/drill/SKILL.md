@@ -13,7 +13,7 @@ Shape of the session:
 
 - Explore the project context before the first question: code, docs, recent commits.
 - If the ask bundles several independent pieces, say so and drill the first piece; the rest queue up.
-- Before settling a direction, put 2 or 3 genuinely different approaches on the table with trade-offs, leading with a recommendation.
+- Before settling a direction, put 2 or 3 genuinely different approaches on the table with trade-offs, leading with a recommendation. When a fork turns on look, feel, or flow that prose can't settle, build a throwaway mockup with fake data to react to instead, and discard it once the direction is picked.
 - Cut ruthlessly: anything the stated constraints don't demand leaves the design.
 
 ## Domain awareness
