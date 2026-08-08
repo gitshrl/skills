@@ -11,7 +11,7 @@ Run the `core-interview` skill against the plan or design under discussion.
 
 Shape of the session:
 
-- Explore the project context before the first question. Questions the codebase, docs, or recent commits can answer are never asked.
+- Explore the project context before the first question: code, docs, recent commits.
 - If the ask bundles several independent pieces, say so and drill the first piece; the rest queue up.
 - Before settling a direction, put 2 or 3 genuinely different approaches on the table with trade-offs, leading with a recommendation.
 - Cut ruthlessly: anything the stated constraints don't demand leaves the design.
@@ -52,7 +52,7 @@ Writing the draft is one session's work: name the destination, sketch the fronti
 
 1. Load the whole spec: the low-res view, not one decision's deep dive.
 2. Pick the next open decision; if the user named one, use that. Claim it before working it.
-3. Resolve it: AFK decisions read the findings the subagent left at `docs/research/<slug>-<decision-slug>.md`; HITL decisions are worked with the user, one question at a time, through the `core-interview` skill.
+3. Resolve it: AFK decisions read the findings the subagent left at `docs/research/<slug>-<decision-slug>.md`; HITL decisions are worked with the user through the `core-interview` skill.
 4. Record the resolution in `Decisions so far`, and remove the decision from `Open decisions`. Graduate anything now sharp from `Not yet specified` into fresh open decisions. A decision revealed to sit beyond the destination is ruled out of scope instead of resolved.
 5. When the last open decision closes, delete the `## Open decisions` section: the spec is settled and the loop takes over.
 

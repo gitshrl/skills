@@ -9,7 +9,7 @@ Spawn a separate full Claude Code session in a tmux window, never a subagent. Th
 
 1. Write the briefing to `docs/spawn/<slug>.md`:
    - With arguments: brief that task. Without arguments: hand this conversation off, then stop working the task here; two sessions on one task collide.
-   - The session starts blank. Reference artifacts by path (specs, files, commits, issues), never "as discussed".
+   - The session starts blank, so reference artifacts by path (specs, files, commits, issues) rather than pointing back to this conversation.
    - Name the skills the session should run, as slash commands. Do not restate what a skill already enforces; one line ("run `/debug` on it, `/verify` before done") replaces a paragraph.
    - Fence the collision zone: name the files and branches this session is using that the spawned one must not touch.
    - No secrets. Keys, tokens, and credentials never enter a briefing.

@@ -19,4 +19,4 @@ Conventions for skills in this repo:
 - Keep SKILL.md lean. Separate files only for heavy reference or reusable assets; link them relatively.
 - No em dashes. Decisive present tense. Zero upstream or status mentions.
 
-Do not write one for one-off solutions, standard practice already well documented, or anything a linter or hook could enforce mechanically.
+Skip it when the work is a one-off, when standard practice is already well documented, or when a linter or hook could enforce the rule mechanically.

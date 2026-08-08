@@ -20,7 +20,7 @@ Treat the current directory as a teaching workspace. The state of their learning
 - `./assets/*`: Reusable **components** shared across lessons. See [Assets](#assets).
 - `NOTES.md`: A scratchpad for you to jot down user preferences, or working notes.
 
-The learning theory every lesson is built on lives in [PEDAGOGY.md](./PEDAGOGY.md): knowledge/skills/wisdom, fluency vs storage strength, the difficulty dial, zone of proximal development, and feedback loops. Read it before designing a lesson.
+The learning theory every lesson is built on lives in [PEDAGOGY.md](./PEDAGOGY.md): knowledge/skills/wisdom, fluency vs storage strength, the difficulty dial, zone of proximal development, and feedback loops.
 
 ## Lessons
 
@@ -28,7 +28,7 @@ A lesson is the main thing you produce: the unit in which knowledge and skills r
 
 Make each lesson **beautiful** (clean, readable typography and layout) since the user will return to these later to review. Think Tufte.
 
-Keep the lesson short, and completable very quickly. Learners' working memory is very small, and we need to stay within it. But each lesson gives the user a single tangible win that they can build on. Tie it directly to the mission, and keep it in the user's zone of proximal development.
+Keep the lesson short, and completable very quickly. Learners' working memory is very small, and we need to stay within it. But each lesson gives the user a single tangible win that they can build on. Keep it in the user's zone of proximal development.
 
 If possible, open the lesson file for the user by running a CLI command.
 
