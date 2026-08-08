@@ -19,4 +19,4 @@ Spawn a separate full Claude Code session in a tmux window, never a subagent. Th
    Outside tmux, wrap the window command in `tmux new-session -d -s <slug>` and tell the user to `tmux attach -t <slug>`.
 3. Report where the session lives (window name, or pane in the current window) and one line on what it will do, then return to the current work. The spawned session is the user's to join, steer, or kill.
 
-Working a draft spec (a `docs/specs/<slug>.md` that still has `## Open decisions`): offer one spawn per open, unblocked decision. Claim the decision in the spec before its session spawns; the briefing carries the spec path and the decision name, nothing the spec already says.
+Working a draft spec (a `docs/specs/<slug>.md` that still has `## Open decisions`): offer one spawn per open, unblocked decision. This is how the draft's decisions parallelize: `drill` works one decision per session, and each spawned session claims its own, so that rule holds across all of them. Claim the decision in the spec before its session spawns; the briefing carries the spec path and the decision name, nothing the spec already says.
